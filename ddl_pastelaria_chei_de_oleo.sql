@@ -29,19 +29,29 @@ CREATE TABLE IF NOT EXISTS contatos (
 CREATE TABLE IF NOT EXISTS produtos (
     idProduto INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nome VARCHAR(100),
-    preco DECIMAL(10, 2) NOT NULL
+    preco DECIMAL(10, 2) NOT NULL,
+    idPastel INT,
+    FOREIGN KEY (idPastel) REFERENCES pasteis (idPastel)
 );
 
 CREATE TABLE IF NOT EXISTS pasteis (
     idPastel INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     descricao VARCHAR(100),
+    tamanho CHAR(1) NOT NULL DEFAULT 'P',
     preco DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS categorias (
+	idCategoria INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(10) NOT NULL DEFAULT 'Comum',
+    idProduto INT NOT NULL,
+    FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
 );
 
 CREATE TABLE IF NOT EXISTS pedidos (
     idPedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     idCliente INT NOT NULL,
-    dataPedido DATE NOT NULL,
+    dataPedido DATE NOT NULL DEFAULT (CURRENT_DATE),
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
 );
 
