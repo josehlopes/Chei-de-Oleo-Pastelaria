@@ -28,17 +28,34 @@ CREATE TABLE IF NOT EXISTS contatos (
 
 CREATE TABLE IF NOT EXISTS produtos (
     idProduto INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(100),
-    preco DECIMAL(10, 2) NOT NULL,
-    idPastel INT,
-    FOREIGN KEY (idPastel) REFERENCES pasteis (idPastel)
+    tipoProduto VARCHAR(100),
+    preco DECIMAL(10, 2) NOT NULL
+    
 );
 
 CREATE TABLE IF NOT EXISTS pasteis (
     idPastel INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     descricao VARCHAR(100),
     tamanho CHAR(1) NOT NULL DEFAULT 'P',
-    preco DECIMAL(10, 2) NOT NULL
+    preco DECIMAL(10, 2) NOT NULL,
+    idProduto INT NOT NULL,
+    FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
+);
+
+CREATE TABLE IF NOT EXISTS ingredientes (
+	idIngrediente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    quantidade INT NOT NULL,
+    idProduto INT NOT NULL,
+    FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
+);
+
+CREATE TABLE IF NOT EXISTS ingredientes_do_pastel (
+	idIdp INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    idPastel INT NOT NULL,
+    idIngrediente INT NOT NULL,
+    FOREIGN KEY (idPastel) REFERENCES pasteis (idPastel),
+    FOREIGN KEY (idIngrediente) REFERENCES ingredientes (idIngrediente)
 );
 
 CREATE TABLE IF NOT EXISTS categorias (
@@ -55,7 +72,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
 );
 
-CREATE TABLE IF NOT EXISTS detalhes_pedido (
+CREATE TABLE IF NOT EXISTS itens_pedido (
     idDetalhe INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     idPedido INT NOT NULL,
     idProduto INT NOT NULL,
