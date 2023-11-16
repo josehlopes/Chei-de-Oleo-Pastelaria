@@ -5,7 +5,11 @@ USE Chei_de_oleo_pastelaria;
 CREATE TABLE IF NOT EXISTS clientes (
 
     idCliente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nomeCliente VARCHAR(100) NOT NULL
+    nomeCliente VARCHAR(100) NOT NULL,
+    nomePreferido VARCHAR(100),
+    cpf VARCHAR(11),
+    dataNascimento DATE
+    
 );
 
 CREATE TABLE IF NOT EXISTS enderecos (
@@ -14,6 +18,9 @@ CREATE TABLE IF NOT EXISTS enderecos (
     numero CHAR(10) NOT NULL,
     cep VARCHAR(100) NOT NULL,
     complemento VARCHAR(100),
+    estado VARCHAR(100),
+    cidade VARCHAR(100),
+    bairro VARCHAR(100),
     idCliente INT NOT NULL,
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
 );
@@ -22,6 +29,7 @@ CREATE TABLE IF NOT EXISTS contatos (
     idContato INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     telefone1 VARCHAR(100) NOT NULL,
     telefone2 VARCHAR(100),
+    email VARCHAR(30),
     idCliente INT NOT NULL,
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
 );
@@ -65,11 +73,19 @@ CREATE TABLE IF NOT EXISTS categorias (
     FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
 );
 
+CREATE TABLE IF NOT EXISTS status_pedidos (
+	idStatus INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    descricao VARCHAR(20)
+);
+
 CREATE TABLE IF NOT EXISTS pedidos (
     idPedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     idCliente INT NOT NULL,
-    dataPedido DATE NOT NULL DEFAULT (CURRENT_DATE),
-    FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
+    dataPedido DATETIME NOT NULL DEFAULT (CURRENT_DATE),
+    formaPagamento CHAR(1),
+    idStatus INT NOT NULL,
+    FOREIGN KEY (idCliente) REFERENCES clientes (idCliente),
+    FOREIGN KEY (idStatus) REFERENCES status_pedidos (idStatus)
 );
 
 CREATE TABLE IF NOT EXISTS itens_pedido (
