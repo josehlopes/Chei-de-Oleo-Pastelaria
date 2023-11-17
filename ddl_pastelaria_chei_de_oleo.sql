@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS clientes (
     idCliente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nomeCliente VARCHAR(100) NOT NULL,
     nomePreferido VARCHAR(100),
-    cpf VARCHAR(11),
+    cpf CHAR(11),
     dataNascimento DATE
     
 );
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS produtos (
 CREATE TABLE IF NOT EXISTS pasteis (
     idPastel INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     descricao VARCHAR(100),
-    tamanho CHAR(1) NOT NULL DEFAULT 'P',
+    tamanho ENUM('P','M','G') NOT NULL DEFAULT 'P',
     preco DECIMAL(10, 2) NOT NULL,
     idProduto INT NOT NULL,
     FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
@@ -75,17 +75,24 @@ CREATE TABLE IF NOT EXISTS categorias (
 
 CREATE TABLE IF NOT EXISTS status_pedidos (
 	idStatus INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(20)
+    descricao ENUM('AP','C','EA','SPE') #AP = AGUARDANDO PAGAMENTO, C = CONCLUIDO, EA = EM ANDAMENTO, SPE = SAIU PARA ENTREGA
+);
+
+CREATE TABLE IF NOT EXISTS formas_pagamentos (
+	idPagamento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    tipoPagamento ENUM('D','CC','CD','PIX') NOT NULL DEFAULT 'D'
 );
 
 CREATE TABLE IF NOT EXISTS pedidos (
     idPedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     idCliente INT NOT NULL,
-    dataPedido DATETIME NOT NULL DEFAULT (CURRENT_DATE),
-    formaPagamento CHAR(1),
+    dataPedido DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     idStatus INT NOT NULL,
+    idPagamento INT NOT NULL,
+    obs VARCHAR(100),
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente),
-    FOREIGN KEY (idStatus) REFERENCES status_pedidos (idStatus)
+    FOREIGN KEY (idStatus) REFERENCES status_pedidos (idStatus),
+    FOREIGN KEY (idPagamento) REFERENCES formas_pagamentos (idPagamento)
 );
 
 CREATE TABLE IF NOT EXISTS itens_pedido (
@@ -96,3 +103,5 @@ CREATE TABLE IF NOT EXISTS itens_pedido (
     FOREIGN KEY (idPedido) REFERENCES pedidos (idPedido),
     FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
 );
+
+
