@@ -1,63 +1,77 @@
 # Chei de Oleo Pastelaria
 
- -- Trabalho proposto pelo professor Victor Moak, SENAI
+      SENAI 
+      CURSO TÉCNICO EM DESENVOLVIMENTO DE SISTEMAS 
+      Unidade Curricular: Banco de Dados 
+      Docente: Victor Moak
+      
+      AVALIAÇÃO DA APRENDIZAGEM II
 
- # Chei_de_oleo_pastelaria Database Schema
+        Resumo do Projeto de Banco de Dados para a Pastelaria - Órbita Tecnologia
 
-## Descrição
-Este repositório contém o esquema do banco de dados para a aplicação "Chei_de_oleo_pastelaria", que representa uma pastelaria. O esquema inclui tabelas para clientes, endereços, contatos, produtos, pasteis, ingredientes, categorias, pedidos e detalhes do pedido.
+        A empresa Órbita Tecnologia está contratando para uma vaga de residência em Banco de Dados, com a tarefa de projetar uma plataforma de gestão de pastéis para uma pastelaria. O objetivo é armazenar dados que permitirão análises futuras (BI) baseadas nessas informações. Aqui estão os principais requisitos e operações a serem realizadas:
 
-## Tabelas
+        Entidades Principais:
 
-1. **clientes:**
-   - `idCliente` (Chave Primária, INT): Identificador único do cliente.
-   - `nomeCliente` (VARCHAR(100)): Nome do cliente.
+        Clientes:
 
-2. **enderecos:**
-   - `idEndereco` (Chave Primária, INT): Identificador único do endereço.
-   - `logradouro`, `numero`, `cep`, `complemento` (VARCHAR): Detalhes do endereço.
-   - `idCliente` (Chave Estrangeira referenciando clientes.idCliente).
+        Informações: Nome completo, Nome preferido, CPF, Data de nascimento, Telefone, E-mail, Bairro, Cidade, Estado.
+        Pastéis:
 
-3. **contatos:**
-   - `idContato` (Chave Primária, INT): Identificador único do contato.
-   - `telefone1`, `telefone2` (VARCHAR): Detalhes de contato.
-   - `idCliente` (Chave Estrangeira referenciando clientes.idCliente).
+        Atributos: Nome, Preço, Recheio, Tamanho, Categoria (Vegano, Vegetariano, Sem lactose).
+        Pedidos:
 
-4. **produtos:**
-   - `idProduto` (Chave Primária, INT): Identificador único do produto.
-   - `tipoProduto` (VARCHAR(100)): Tipo ou categoria do produto.
-   - `preco` (DECIMAL(10, 2)): Preço do produto.
+        Detalhes: Lista de produtos, Forma de pagamento, Cliente, Data do pedido.
+        Operações para BI:
 
-5. **pasteis:**
-   - `idPastel` (Chave Primária, INT): Identificador único do pastel.
-   - `descricao` (VARCHAR(100)): Descrição do pastel.
-   - `tamanho`, `preco` (CHAR(1), DECIMAL(10, 2)): Tamanho e preço do pastel.
-   - `idProduto` (Chave Estrangeira referenciando produtos.idProduto).
+        Listar os nomes de todos os pastéis veganos vendidos para pessoas com mais de 18 anos.
+        Listar os clientes com maior número de pedidos realizados em 1 ano agrupados por mês.
+        Listar todos os pastéis que possuem bacon e queijo em seu recheio.
+        Mostrar o valor de venda total de todos os pastéis cadastrados no sistema.
+        Listar todos os pedidos que incluem pelo menos um pastel e uma bebida.
+        Listar os pastéis mais vendidos, incluindo a quantidade de vendas em ordem crescente.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------                     
+    Chei de Óleo Pastelaria - Banco de Dados
 
-6. **ingredientes:**
-   - `idIngrediente` (Chave Primária, INT): Identificador único do ingrediente.
-   - `nome` (VARCHAR(100)): Nome do ingrediente.
-   - `quantidade` (INT): Quantidade disponível.
-   - `idProduto` (Chave Estrangeira referenciando produtos.idProduto).
+        Este script cria um banco de dados para a Chei de Óleo Pastelaria, organizando informações sobre clientes, endereços, contatos, produtos, pedidos e itens de pedido.
 
-7. **ingredientes_do_pastel:**
-   - `idIdp` (Chave Primária, INT): Identificador único da relação entre pastel e ingrediente.
-   - `idPastel`, `idIngrediente` (Chave Estrangeira referenciando pasteis.idPastel e ingredientes.idIngrediente).
+        --Tabelas--
 
-8. **categorias:**
-   - `idCategoria` (Chave Primária, INT): Identificador único da categoria.
-   - `nome` (VARCHAR(10), DEFAULT 'Comum'): Nome da categoria.
-   - `idProduto` (Chave Estrangeira referenciando produtos.idProduto).
+        clientes:
+        Armazena informações sobre os clientes, como nome, preferências e data de nascimento.
 
-9. **pedidos:**
-   - `idPedido` (Chave Primária, INT): Identificador único do pedido.
-   - `idCliente` (Chave Estrangeira referenciando clientes.idCliente).
-   - `dataPedido` (DATE, DEFAULT (CURRENT_DATE)): Data do pedido.
+        enderecos:
+        Contém detalhes dos endereços dos clientes.
 
-10. **itens_pedido:**
-    - `idDetalhe` (Chave Primária, INT): Identificador único do item do pedido.
-    - `idPedido`, `idProduto` (Chave Estrangeira referenciando pedidos.idPedido e produtos.idProduto).
-    - `quantidade` (INT): Quantidade do produto no pedido.
+        contatos:
+        Guarda informações de contato dos clientes, como telefones e e-mails.
+
+        produtos:
+        Lista os produtos disponíveis na pastelaria, com tipos e preços.
+
+        pasteis:
+        Registra os pastéis oferecidos, incluindo descrição, tamanho e preço.
+
+        ingredientes:
+        Detalha os ingredientes usados nos produtos.
+
+        ingredientes_do_pastel:
+        Associa ingredientes aos pastéis disponíveis.
+
+        categorias:
+        Categoriza os produtos, sendo "Comum" a categoria padrão.
+
+        status_pedidos:
+        Define os status dos pedidos, como "Aguardando Pagamento" ou "Concluído".
+
+        formas_pagamentos:
+        Indica as formas de pagamento disponíveis, como "Dinheiro", "Cartão de Crédito", etc.
+
+        pedidos:
+        Registra os pedidos feitos pelos clientes, incluindo data, status, forma de pagamento e observações.
+
+        itens_pedido:
+        Lista os itens específicos incluídos em cada pedido, com a quantidade correspondente.
 
 ## Contribuições
 
