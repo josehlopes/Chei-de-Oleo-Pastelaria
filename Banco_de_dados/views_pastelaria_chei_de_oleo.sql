@@ -25,7 +25,7 @@ FROM pasteis p
 JOIN ingredientes_do_pastel idp ON idp.idPastel = p.idPastel
 JOIN ingredientes i ON i.idIngrediente = idp.idIngrediente
 WHERE idp.idIngrediente IN (5,2)
-GROUP BY descricao;
+GROUP BY p.descricao, p.tamanho;
 
 SELECT * FROM V_ver_bacon_e_queijo;
 COMMIT;
