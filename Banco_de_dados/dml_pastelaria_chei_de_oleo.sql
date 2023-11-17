@@ -250,10 +250,6 @@ SELECT * FROM pedidos;
 SELECT * FROM itens_pedido;
 
 
-
-
 /*COMMIT;
 $$
 DELIMITER ;*/
-
-
