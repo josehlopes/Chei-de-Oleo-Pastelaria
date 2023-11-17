@@ -1,5 +1,12 @@
--- Inserção de Clientes   
+/*DELIMITER $$
 
+START TRANSACTION;
+
+	DECLARE exit HANDLER FOR SQLEXCEPTION SELECT 'Erro ao inserir!' as MESSAGE
+		BEGIN
+			ROLLBACK;
+		END;*/
+    
 INSERT INTO clientes (nomeCliente, nomePreferido, cpf, dataNascimento)
 VALUES 
     ('Alice Ventania', 'Alice', '12345678909', '1992-04-05'),
@@ -49,5 +56,204 @@ VALUES
     ('(61) 9876-5432', 'cliente10_amantedomassapequena@email.com', 10);
     
     SELECT * FROM contatos;
+
+-- Inserção de categorias
+
+INSERT INTO categorias (nome) 
+VALUES
+('Veganos'),
+('Bebidas'),
+('Ingredientes'),
+('Lanches');
+
+
+-- Inserção de Produtos
+
+-- Inserção de lanches
+
+INSERT INTO produtos (nomeProduto, preco, idCategoria) 
+VALUES
+('Coxinha', 4.50, 4),
+('Empada', 3.75, 4),
+('Kibe', 5.25, 4),
+('Pastel', 4.99, 4),
+('Croissant', 6.50, 4);
+
+-- Inserção de bebidas
+
+INSERT INTO produtos (nomeProduto, preco, idCategoria) 
+VALUES
+('Refrigerante', 4.00, 2),
+('Suco Natural', 5.50, 2);
+
+SELECT * FROM categorias;
+
+
+SELECT * FROM produtos;
+
+-- Inserção de ingredientes
+
+INSERT INTO ingredientes (nome, idCategoria)
+ VALUES
+('Frango', 3),
+('Queijo', 3),
+('Tomate', 3),
+('Cebola', 3),
+('Bacon', 3),
+('Carne', 3);
+
+
+
+SELECT * FROM ingredientes;
+
+-- Inserção de Pasteis
+
+INSERT INTO pasteis (descricao, tamanho, preco)
+VALUES 
+
+('Pastel de tomate', 'P', 3.00),
+('Pastel de frango', 'G', 8.00),
+('Pastel de cebola', 'P', 3.00),
+('Pastel de queijo', 'M', 6.00),
+('Pastel de cebola com tomate', 'M', 6.00),
+('Pastel de bacon', 'P', 4.00),
+('Pastel de bacon com queijo', 'G', 8.00),
+('Pastel de frango com queijo', 'M', 6.00),
+('Pastel de carne com queijo', 'P', 4.00);
+
+SELECT * FROM pasteis;
+
+-- Lista de ingredientes
+INSERT INTO ingredientes_do_pastel (idPastel, idIngrediente)
+VALUES
+(5, 4),
+(5, 3),
+(3, 4),
+(4, 2),
+(1, 3),
+(6, 5),
+(7, 5),
+(7, 2),
+(8, 5),
+(8, 1),
+(9, 2),
+(9, 6);
+
+SELECT * FROM ingredientes_do_pastel;
+
+
+-- Inserção de Status de Pedidos
+
+INSERT INTO status_pedidos (descricao) 
+VALUES 
+    ('AP'), -- Aguardando Pagamento
+    ('C'),  -- Concluído
+    ('EA'), -- Em Andamento
+    ('SPE');-- Saiu para Entrega
+
+-- Inserção de Formas de Pagamento
+INSERT INTO formas_pagamentos (tipoPagamento) 
+VALUES 
+    ('D'),  -- Dinheiro
+    ('CC'), -- Cartão de Crédito
+    ('CD'), -- Cartão de Débito
+    ('PIX');-- PIX
+
+-- Inserção de Pedidos
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs) 
+VALUES 
+    (1, 1, 1, 'Pedido da Alice, Aguardando Pagamento'),
+    (2, 3, 2, 'Pedido do Bernardo, Em Andamento'),
+    (3, 2, 4, 'Pedido da Clara, Concluído'),
+    (4, 1, 3, 'Pedido do Davi, Aguardando Pagamento'),
+    (5, 4, 4, 'Pedido da Eva, Saiu para Entrega');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (1, 1, 2), -- 2 Coxinhas para o Pedido da Alice
+    (1, 4, 3), -- 3 Pasteis para o Pedido da Alice
+    (2, 3, 1), -- 1 Kibe para o Pedido do Bernardo
+    (3, 5, 2), -- 2 Croissants para o Pedido da Clara
+    (4, 2, 3), -- 3 Empadas para o Pedido do Davi
+    (5, 4, 4); -- 4 Pasteis para o Pedido da Eva
+
+-- Inserção de Pedidos em Meses Diferentes com Horas
+-- Pedido para Janeiro
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (1, 1, 1, 'Pedido da Alice, Aguardando Pagamento', '2023-01-10 10:30:00'),
+    (2, 3, 2, 'Pedido do Bernardo, Em Andamento', '2023-01-15 12:45:00');
+
+-- Pedido para Fevereiro
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (3, 2, 4, 'Pedido da Clara, Concluído', '2023-02-05 14:20:00'),
+    (4, 1, 3, 'Pedido do Davi, Aguardando Pagamento', '2023-02-20 16:55:00');
+
+-- Pedido para Março
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (5, 4, 4, 'Pedido da Eva, Saiu para Entrega', '2023-03-08 18:30:00');
+    
+-- Pedido para Abril
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (6, 3, 1, 'Pedido do Fábio, Em Andamento', '2023-04-12 10:30:00'),
+    (7, 2, 2, 'Pedido da Giovana, Concluído', '2023-04-18 12:45:00');
+
+-- Pedido para Maio
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (8, 1, 4, 'Pedido do Henrique, Aguardando Pagamento', '2023-05-02 14:20:00'),
+    (9, 4, 3, 'Pedido da Isabela, Saiu para Entrega', '2023-05-15 16:55:00');
+
+-- Pedido para Junho
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (10, 3, 1, 'Pedido do João, Em Andamento', '2023-06-08 18:30:00');
+
+-- Pedido para Julho
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (1, 2, 2, 'Segundo Pedido da Alice, Concluído', '2023-07-20 10:30:00');
+
+-- Pedido para Agosto
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (2, 4, 4, 'Segundo Pedido do Bernardo, Aguardando Pagamento', '2023-08-05 12:45:00');
+
+-- Pedido para Setembro
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (3, 1, 3, 'Segundo Pedido da Clara, Saiu para Entrega', '2023-09-18 14:20:00');
+
+-- Pedido para Outubro
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (4, 3, 1, 'Segundo Pedido do Davi, Em Andamento', '2023-10-02 16:55:00');
+
+-- Pedido para Novembro
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (5, 2, 2, 'Segundo Pedido da Eva, Concluído', '2023-11-15 18:30:00');
+
+-- Pedido para Dezembro
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (6, 4, 4, 'Segundo Pedido do Fábio, Aguardando Pagamento', '2023-12-08 10:30:00');
+
+-- Visualização dos Pedidos
+SELECT * FROM pedidos;
+
+-- Visualização dos Itens nos Pedidos
+SELECT * FROM itens_pedido;
+
+
+
+
+/*COMMIT;
+$$
+DELIMITER ;*/
 
 
