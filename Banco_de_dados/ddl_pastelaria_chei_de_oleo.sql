@@ -31,14 +31,16 @@ CREATE TABLE IF NOT EXISTS contatos (
     idContato INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     telefone1 VARCHAR(100) NOT NULL,
     telefone2 VARCHAR(100),
-    email VARCHAR(30),
+    email VARCHAR(40),
     idCliente INT NOT NULL,
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
 );
 
 CREATE TABLE IF NOT EXISTS categorias (
 	idCategoria INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(10) NOT NULL
+
+    nome VARCHAR(20) NOT NULL
+
 );
 
 CREATE TABLE IF NOT EXISTS produtos (
@@ -108,4 +110,6 @@ CREATE TABLE IF NOT EXISTS itens_pedido (
 COMMIT;
 
 $$
+
 DELIMITER ;
+
