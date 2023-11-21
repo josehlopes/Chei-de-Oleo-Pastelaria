@@ -30,12 +30,25 @@ GROUP BY p.descricao, p.tamanho;
 SELECT * FROM V_ver_bacon_e_queijo;
 #------------------------------------------------------------
 CREATE OR REPLACE VIEW V_clientes_com_mais_pedidos AS
-SELECT c.nomeCliente, count(p.idPedido) as numeroDePedidos, MONTH(p.dataPedido) as mesDoPedido
+SELECT c.nomeCliente, COUNT(p.idPedido) as numeroDePedidos, MONTH(p.dataPedido) as mesDoPedido
 FROM clientes c
 JOIN pedidos p ON c.idCliente = p.idCliente
 GROUP BY c.nomeCliente, mesDoPedido
 ORDER BY numeroDePedidos DESC;
 
 SELECT * FROM V_clientes_com_mais_pedidos;
+#------------------------------------------------------------
+CREATE OR REPLACE VIEW V_pasteis_veganos_clientes18 AS
+SELECT c.nomeCliente, TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) AS idade, pa.descricao, cc.nome, p.idPedido as numeroDoPedido
+FROM clientes c
+JOIN pedidos p
+JOIN itens_pedido i ON i.idPedido = p.idPedido
+JOIN pasteis pa ON pa.idPastel = i.idPastel
+JOIN categorias cc ON pa.idCategoria = cc.idCategoria
+WHERE TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) > 18
+AND cc.nome = 'Veganos';
+
+SELECT * FROM V_pasteis_veganos_clientes18;
+
 
 COMMIT;
