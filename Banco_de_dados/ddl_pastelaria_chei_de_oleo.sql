@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS contatos (
 
 CREATE TABLE IF NOT EXISTS categorias (
 	idCategoria INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-
     nome VARCHAR(20) NOT NULL
 
 );
@@ -65,6 +64,8 @@ CREATE TABLE IF NOT EXISTS pasteis (
     tamanho ENUM('P','M','G') NOT NULL DEFAULT 'P',
     preco DECIMAL(10, 2) NOT NULL,
     idProduto INT DEFAULT 4,
+	idCategoria INT NOT NULL,
+    FOREIGN KEY (idCategoria) REFERENCES categorias (idCategoria),
     FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
 );
 
@@ -105,7 +106,16 @@ CREATE TABLE IF NOT EXISTS itens_pedido (
     quantidade INT NOT NULL,
     FOREIGN KEY (idPedido) REFERENCES pedidos (idPedido),
     FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
+    
 );
+
+ALTER TABLE itens_pedido
+ADD COLUMN idIngrediente INT,
+ADD FOREIGN KEY (idIngrediente) REFERENCES ingredientes (idIngrediente);
+
+ALTER TABLE itens_pedido
+ADD COLUMN idPastel INT,
+ADD FOREIGN KEY (idPastel) REFERENCES pasteis (idPastel);
 
 COMMIT;
 
