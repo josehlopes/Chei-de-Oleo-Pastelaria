@@ -65,18 +65,19 @@ SELECT * FROM V_valor_total_pastel;
 
 #temos que inserir ainda bebidas e pedidos com bebidas : 
 
-
-SELECT p.idPedido
-FROM pedidos p
+CREATE OR REPLACE VIEW V_pedidos_pastel_bebida AS
+SELECT p1.idPedido
+FROM pedidos p1
 WHERE EXISTS (
-    SELECT 1 FROM itens_pedido i
-    JOIN produtos prod ON i.idProduto = prod.idProduto
-    WHERE i.idPedido = p.idPedido AND prod.idCategoria = 4 
+    SELECT 1 FROM itens_pedido i1
+    JOIN produtos prod1 ON i1.idProduto = prod1.idProduto
+    WHERE i1.idPedido = p1.idPedido AND prod1.idCategoria = 4
 ) AND EXISTS (
-    SELECT 1 FROM itens_pedido i
-    JOIN produtos prod ON i.idProduto = prod.idProduto
-    WHERE i.idPedido = p.idPedido AND prod.idCategoria = 2 
+    SELECT 1 FROM itens_pedido i2
+    JOIN produtos prod2 ON i2.idProduto = prod2.idProduto
+    WHERE i2.idPedido = p1.idPedido AND prod2.idCategoria = 2 
 );
+SELECT * FROM V_pedidos_pastel_bebida;
 
 #-------------------------QUESTÃO 6 -----------------------------------
 
