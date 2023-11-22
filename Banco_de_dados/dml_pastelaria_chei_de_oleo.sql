@@ -282,6 +282,58 @@ INSERT INTO itens_pedido (idPedido, idProduto, quantidade)
 VALUES 
     (4, 4, 3), -- 3 Pasteis Veganos para o Pedido do Davi
     (5, 4, 2); -- 2 Pasteis Veganos para o Pedido da Eva;
+    
+-- Inserção de Pedidos com Bebidas
+-- Pedido 1
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (1, 1, 1, 'Pedido da Alice com Bebida, Aguardando Pagamento', '2023-02-01 14:00:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (6, 6, 2);  -- Refrigerantes para o Pedido da Alice
+
+-- Pedido 2
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (2, 3, 2, 'Pedido do Bernardo com Bebida, Em Andamento', '2023-02-02 15:30:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (7, 7, 1), -- 1 Suco Natural para o Pedido do Bernardo
+    (7, 6, 3); -- 3 Refrigerantes para o Pedido do Bernardo
+
+-- Pedido 3
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (3, 2, 4, 'Pedido da Clara com Bebida, Concluído', '2023-02-03 18:45:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (8, 7, 2); -- 2 Suco Natural para o Pedido da Clara
+
+-- Pedido 4
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (4, 1, 3, 'Pedido do Davi com Bebida, Aguardando Pagamento', '2023-02-04 12:00:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (9, 6, 4); -- 4 Refrigerantes para o Pedido do Davi
+
+-- Pedido 5
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (5, 4, 4, 'Pedido da Eva com Bebida, Saiu para Entrega', '2023-02-05 16:15:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (10, 7, 1); -- 1 Suco Natural para o Pedido da Eva
 
     
 -- Visualização dos Pedidos
