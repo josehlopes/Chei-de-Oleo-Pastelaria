@@ -1,12 +1,4 @@
-/*DELIMITER $$
 
-START TRANSACTION;
-
-	DECLARE exit HANDLER FOR SQLEXCEPTION SELECT 'Erro ao inserir!' as MESSAGE
-		BEGIN
-			ROLLBACK;
-		END;*/
-    
 INSERT INTO clientes (nomeCliente, nomePreferido, cpf, dataNascimento)
 VALUES 
     ('Alice Ventania', 'Alice', '12345678909', '1992-04-05'),
@@ -341,8 +333,3 @@ SELECT * FROM pedidos;
 
 -- Visualização dos Itens nos Pedidos
 SELECT * FROM itens_pedido;
-
-
-/*COMMIT;
-$$
-DELIMITER ;*/
