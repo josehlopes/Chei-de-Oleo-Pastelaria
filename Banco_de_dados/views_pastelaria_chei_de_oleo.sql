@@ -76,26 +76,23 @@ SELECT * FROM V_valor_total_pastel;
 CREATE OR REPLACE VIEW V_pedidos_pastel_bebida AS
 SELECT p1.idPedido
 FROM pedidos p1
-WHERE EXISTS (
-    SELECT 1 FROM itens_pedido i1
-    JOIN produtos prod1 ON i1.idProduto = prod1.idProduto
-    WHERE i1.idPedido = p1.idPedido AND prod1.idCategoria = 4
-) AND EXISTS (
-    SELECT 1 FROM itens_pedido i2
-    JOIN produtos prod2 ON i2.idProduto = prod2.idProduto
-    WHERE i2.idPedido = p1.idPedido AND prod2.idCategoria = 2 
-);
+JOIN itens_pedido i ON p1.idPedido = i.idPedido
+JOIN produtos p ON i.idProduto = p.idProduto AND p.idCategoria = 4
+JOIN categorias c ON c.idCategoria = 2
+GROUP BY p1.idPedido
+ORDER BY p1.idPedido ASC;
 
 -- Selecionando dados da View V_pedidos_pastel_bebida
 SELECT * FROM V_pedidos_pastel_bebida;
 
+
 -- Criando a View V_pasteis_mais_vendidos
 CREATE OR REPLACE VIEW V_pasteis_mais_vendidos AS
-SELECT pa.descricao, COUNT(*) AS quantidade_vendas
+SELECT pa.descricao, i.quantidade as quantidadeVendas
 FROM pasteis pa
 JOIN itens_pedido i ON pa.idPastel = i.idPastel
 GROUP BY pa.descricao
-ORDER BY quantidade_vendas ASC;
+ORDER BY quantidadeVendas DESC;
 
 -- Selecionando dados da View V_pasteis_mais_vendidos
 SELECT * FROM V_pasteis_mais_vendidos;
