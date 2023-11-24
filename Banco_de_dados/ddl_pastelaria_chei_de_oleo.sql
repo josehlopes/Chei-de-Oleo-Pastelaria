@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS clientes (
     idCliente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nomeCliente VARCHAR(100) NOT NULL,
     nomePreferido VARCHAR(100),
-    cpf CHAR(11),
+    cpf CHAR(11) UNIQUE,
     dataNascimento DATE
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS contatos (
     idContato INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     telefone1 VARCHAR(100) NOT NULL,
     telefone2 VARCHAR(100),
-    email VARCHAR(40),
+    email VARCHAR(40) UNIQUE,
     idCliente INT NOT NULL,
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
 );
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS contatos (
 -- Criação da tabela de categorias
 CREATE TABLE IF NOT EXISTS categorias (
     idCategoria INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(20) NOT NULL
+    nome VARCHAR(20) NOT NULL UNIQUE
 );
 
 -- Criação da tabela de produtos

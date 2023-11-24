@@ -34,6 +34,41 @@ BEGIN
     VALUES (p_telefone1, p_telefone2, p_email, codigo_cliente);
 
     COMMIT;
+    
 END$$
 
 DELIMITER ;
+
+CALL P_cadastrar_cliente(
+    'Maria Oliveira',
+    'Mariazinha',
+    '98765432109',
+    '1985-08-20',
+    'Avenida das Palmeiras',
+    '789',
+    '54321-876',
+    'Casa 456',
+    'RJ',
+    'Rio de Janeiro',
+    'Copacabana',
+    '123456789',
+    '999999999',
+    'maria.oliveira@example.com'
+);
+
+SELECT * FROM V_dados_dos_clientes;
+#----------------------------------------
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE P_cadastrar_produto (
+    IN p_nomeProduto VARCHAR(100),
+    IN p_preco DECIMAL(10, 2),
+    IN p_idCategoria INT,
+)
+	BEGIN
+    
+		DECLARE codigo_produto INT;
+        
+		START TRANSACTION;
+		
+		INSERT INTO produtos (nomeProduto, preco, idCategoria)
+        VALUES (p_nomeProduto, p_preco, p_idCategoria)
