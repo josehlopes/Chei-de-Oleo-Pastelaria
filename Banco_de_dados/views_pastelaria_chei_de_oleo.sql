@@ -97,5 +97,16 @@ ORDER BY quantidadeVendas DESC;
 -- Selecionando dados da View V_pasteis_mais_vendidos
 SELECT * FROM V_pasteis_mais_vendidos;
 
+CREATE OR REPLACE VIEW V_informacoes_do_pedido AS
+SELECT c.nomeCliente, c.cpf, e.logradouro, e.numero, e.cep, e.complemento, ct.telefone1, p.idPedido, TIME(p.dataPedido) as HoraDoPedido , s.descricao, f.tipoPagamento
+FROM clientes c
+JOIN enderecos e ON c.idCliente = e.idCliente
+JOIN contatos ct ON c.idCliente = ct.idCliente
+JOIN pedidos p ON c.idCliente = p.idCliente
+JOIN status_pedidos s ON p.idStatus = s.idStatus
+JOIN formas_pagamentos f ON p.idPagamento = f.idPagamento;
+
+SELECT * FROM V_informacoes_do_pedido;
+
 -- Commit para encerrar a transação
 COMMIT;
