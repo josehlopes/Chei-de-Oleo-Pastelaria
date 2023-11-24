@@ -79,7 +79,10 @@ VALUES
 ('Refrigerante', 4.00, 2),
 ('Suco Natural', 5.50, 2);
 
-SELECT * FROM categorias;
+SELECT 
+    *
+FROM
+    categorias;
 
 
 SELECT * FROM produtos;
