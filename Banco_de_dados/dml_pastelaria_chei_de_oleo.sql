@@ -1,4 +1,3 @@
-
 INSERT INTO clientes (nomeCliente, nomePreferido, cpf, dataNascimento)
 VALUES 
     ('Alice Ventania', 'Alice', '12345678909', '1992-04-05'),
@@ -12,9 +11,8 @@ VALUES
     ('Isabela Chuva', 'Isabela', '56789012345', '1994-03-12'),
     ('João Trovador', 'João', '21098765432', '1989-08-17');
     
-    SELECT * FROM clientes;
-    
--- Inserção de Endereços    
+-- Visualização dos Clientes
+SELECT * FROM clientes;
 
 INSERT INTO enderecos (logradouro, numero, cep, complemento, estado, cidade, bairro, idCliente)
 VALUES
@@ -29,7 +27,8 @@ VALUES
     ('Rua I', '876', '12345-678', 'Bloco A', 'SC', 'Florianópolis', 'Centro', 9),
     ('Avenida J', '109', '23456-789', 'Loja 1', 'DF', 'Brasília', 'Asa Sul', 10);
     
--- Inserção de Contatos
+-- Visualização dos Endereços
+SELECT * FROM enderecos;
 
 INSERT INTO contatos (telefone1, telefone2, email, idCliente)
 VALUES
@@ -37,17 +36,15 @@ VALUES
     ('(21) 4567-8901', '(21) 9876-5432', 'amante_de_pastel_cliente2@email.com', 2),
     ('(31) 9876-5432', '(31) 1234-5678', 'cliente3_pastelmania@email.com', 3),
     ('(51) 9876-5432', '(51) 1234-5678', 'delicias_de_pastel_cliente4@email.com', 4),
-    ('(71) 9876-5432', '(71) 1234-5678', 'cliente5_sabordopastel@email.com', 5);
-
-INSERT INTO contatos (telefone1, email, idCliente)
-VALUES
-    ('(41) 9876-5432', 'cliente6_pastelaroma@email.com', 6),
-    ('(81) 9876-5432', 'cliente7_pastelcremoso@email.com', 7),
-    ('(85) 9876-5432', 'cliente8_saboresdivinos@email.com', 8),
-    ('(48) 9876-5432', 'cliente9_pastelartesanal@email.com', 9),
-    ('(61) 9876-5432', 'cliente10_amantedomassapequena@email.com', 10);
+    ('(71) 9876-5432', '(71) 1234-5678', 'cliente5_sabordopastel@email.com', 5),
+    ('(41) 9876-5432', NULL,'cliente6_pastelaroma@email.com', 6),
+    ('(81) 9876-5432', NULL,'cliente7_pastelcremoso@email.com', 7),
+    ('(85) 9876-5432', NULL,'cliente8_saboresdivinos@email.com', 8),
+    ('(48) 9876-5432', NULL,'cliente9_pastelartesanal@email.com', 9),
+    ('(61) 9876-5432', NULL,'cliente10_amantedomassapequena@email.com', 10);
     
-    SELECT * FROM contatos;
+-- Visualização dos Contatos
+SELECT * FROM contatos;
 
 -- Inserção de categorias
 
@@ -64,7 +61,7 @@ VALUES
 
 -- Inserção de lanches
 
-INSERT INTO produtos (nomeProduto, preco, idCategoria) 
+INSERT INTO produtos (nomeProduto, precoBase, idCategoria) 
 VALUES
 ('Coxinha', 4.50, 4),
 ('Empada', 3.75, 4),
@@ -74,7 +71,7 @@ VALUES
 
 -- Inserção de bebidas
 
-INSERT INTO produtos (nomeProduto, preco, idCategoria) 
+INSERT INTO produtos (nomeProduto, precoBase, idCategoria) 
 VALUES
 ('Refrigerante', 4.00, 2),
 ('Suco Natural', 5.50, 2);

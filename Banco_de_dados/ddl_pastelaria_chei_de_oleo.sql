@@ -1,7 +1,5 @@
--- Início da transação e definição do delimitador
-DELIMITER $$
-
 -- Criação do banco de dados se não existir e seleção do mesmo
+
 CREATE DATABASE IF NOT EXISTS Chei_de_oleo_pastelaria;
 USE Chei_de_oleo_pastelaria;
 
@@ -48,7 +46,7 @@ CREATE TABLE IF NOT EXISTS categorias (
 CREATE TABLE IF NOT EXISTS produtos (
     idProduto INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nomeProduto VARCHAR(100),
-    preco DECIMAL(10, 2) NOT NULL,
+    precoBase DECIMAL(10, 2) NOT NULL,
     idCategoria INT NOT NULL,
     FOREIGN KEY (idCategoria) REFERENCES categorias (idCategoria)
 );
@@ -57,6 +55,7 @@ CREATE TABLE IF NOT EXISTS produtos (
 CREATE TABLE IF NOT EXISTS ingredientes (
     idIngrediente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
     idCategoria INT NOT NULL,
     FOREIGN KEY (idCategoria) REFERENCES categorias (idCategoria)
 );
@@ -113,22 +112,12 @@ CREATE TABLE IF NOT EXISTS itens_pedido (
     idPedido INT NOT NULL,
     idProduto INT NOT NULL,
     quantidade INT NOT NULL,
+    idPastel INT,
+    idIngrediente INT,
+	FOREIGN KEY (idIngrediente) REFERENCES ingredientes (idIngrediente),
+	FOREIGN KEY (idPastel) REFERENCES pasteis (idPastel),
     FOREIGN KEY (idPedido) REFERENCES pedidos (idPedido),
     FOREIGN KEY (idProduto) REFERENCES produtos (idProduto)
 );
 
--- Adição da coluna idIngrediente na tabela itens_pedido
-ALTER TABLE itens_pedido
-ADD COLUMN idIngrediente INT,
-ADD FOREIGN KEY (idIngrediente) REFERENCES ingredientes (idIngrediente);
-
--- Adição da coluna idPastel na tabela itens_pedido
-ALTER TABLE itens_pedido
-ADD COLUMN idPastel INT,
-ADD FOREIGN KEY (idPastel) REFERENCES pasteis (idPastel);
-
--- Fim da transação e reset do delimitador
-COMMIT;
-$$
-
-DELIMITER ;
+SELECT * FROM pasteis;

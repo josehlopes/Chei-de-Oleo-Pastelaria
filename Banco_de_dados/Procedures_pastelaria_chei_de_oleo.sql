@@ -1,4 +1,3 @@
--- Procedimento para o Cadastro de Clientes
 DELIMITER $$
 
 CREATE OR REPLACE PROCEDURE P_cadastrar_cliente (
@@ -19,6 +18,13 @@ CREATE OR REPLACE PROCEDURE P_cadastrar_cliente (
 )
 BEGIN
     DECLARE codigo_cliente INT;
+    DECLARE erro_occurred BOOLEAN DEFAULT FALSE;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        SET erro_occurred = TRUE;
+        ROLLBACK;
+    END;
 
     START TRANSACTION;
 
@@ -33,16 +39,21 @@ BEGIN
     INSERT INTO contatos (telefone1, telefone2, email, idCliente)
     VALUES (p_telefone1, p_telefone2, p_email, codigo_cliente);
 
-    COMMIT;
+    IF erro_occurred THEN
+        SET MESSAGE_TEXT = 'Erro durante o cadastro do cliente.';
+    ELSE
+        COMMIT;
+    END IF;
     
 END$$
 
 DELIMITER ;
 
+
 CALL P_cadastrar_cliente(
-    'Maria Oliveira',
+    'Maria Santana',
     'Mariazinha',
-    '98765432109',
+    '21609080216',
     '1985-08-20',
     'Avenida das Palmeiras',
     '789',
@@ -51,24 +62,81 @@ CALL P_cadastrar_cliente(
     'RJ',
     'Rio de Janeiro',
     'Copacabana',
-    '123456789',
-    '999999999',
-    'maria.oliveira@example.com'
+    '(71) 12345-6789',
+    '(71) 99999-9999',
+    'maria2022.oliveira@example.com'
 );
 
 SELECT * FROM V_dados_dos_clientes;
 #----------------------------------------
 DELIMITER $$
+
 CREATE OR REPLACE PROCEDURE P_cadastrar_produto (
     IN p_nomeProduto VARCHAR(100),
     IN p_preco DECIMAL(10, 2),
-    IN p_idCategoria INT,
+    IN p_idCategoria INT
 )
-	BEGIN
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO produtos (nomeProduto, precoBase, idCategoria)
+    VALUES (p_nomeProduto, p_preco, p_idCategoria);
+
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+
+CALL P_cadastrar_produto(
+	'Pizza',
+	 50.00,
+     4
+);
+
+SELECT * FROM produtos;
+#----------------------------------------
+#FALTA INSERIR OS INGREDIENTES DO PASTEL NESSA PROCEDURE OU FAZER UM TRIGGER QUE O FAÇA
+
+DELIMITER $$
+
+CREATE OR REPLACE PROCEDURE P_cadastrar_pastel (
+    IN p_descricao VARCHAR(100),
+    IN p_tamanho CHAR(1),
+    IN p_preco DECIMAL(10, 2),
+    IN p_idProduto INT,
+    IN p_idCategoria INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
     
-		DECLARE codigo_produto INT;
-        
 		START TRANSACTION;
-		
-		INSERT INTO produtos (nomeProduto, preco, idCategoria)
-        VALUES (p_nomeProduto, p_preco, p_idCategoria)
+
+		INSERT INTO pasteis (descricao, tamanho, preco, idProduto, idCategoria)
+        VALUES (p_descricao, p_tamanho, p_preco, p_idProduto, p_idCategoria);
+        
+		COMMIT;
+END$$
+
+DELIMITER ;
+
+
+CALL P_cadastrar_pastel(
+    'Pastel de Tomate 5',
+    'M',
+    10.50,
+    4,
+    4  
+);
+
+SELECT * FROM pasteis;
+
+    
