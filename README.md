@@ -78,7 +78,7 @@
     Trabalho feito pelo trio:
         https://github.com/YGerard324
         https://github.com/josehlopes
-        @Elisson Nadson Souza Marques
+        https://github.com/ElissonNadson
         
 ## Licença
 Este projeto está licenciado sob a [Licença MIT](LICENSE).
