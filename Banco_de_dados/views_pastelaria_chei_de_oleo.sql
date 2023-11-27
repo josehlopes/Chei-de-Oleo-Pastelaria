@@ -1,6 +1,6 @@
 -- Início da Transação
 START TRANSACTION;
-
+-- /////////////////////////////////////////////////////////////////////View 1 ////////////////////////////////////////////// --
 -- Criando a View V_dados_dos_clientes
 CREATE OR REPLACE VIEW V_dados_dos_clientes AS 
 SELECT nomeCliente, cpf, logradouro, numero, complemento, telefone1, email 
@@ -11,6 +11,7 @@ JOIN contatos ON clientes.idCliente = contatos.idCliente;
 -- Selecionando dados da View V_dados_dos_clientes
 SELECT * FROM V_dados_dos_clientes;
 
+-- /////////////////////////////////////////////////////////////////////View 2 ////////////////////////////////////////////// --
 -- Criando a View V_ingredientes_do_pastel
 CREATE OR REPLACE VIEW V_ingredientes_do_pastel AS 
 SELECT p.descricao, p.tamanho, i.nome as ingrediente
@@ -21,6 +22,7 @@ ORDER BY descricao;
 
 -- Selecionando dados da View V_ingredientes_do_pastel
 SELECT * FROM V_ingredientes_do_pastel;
+-- /////////////////////////////////////////////////////////////////////View 3 ////////////////////////////////////////////// --
 
 -- Criando a View V_ver_bacon_e_queijo
 CREATE OR REPLACE VIEW V_ver_bacon_e_queijo AS 
@@ -33,6 +35,7 @@ GROUP BY p.descricao, p.tamanho;
 
 -- Selecionando dados da View V_ver_bacon_e_queijo
 SELECT * FROM V_ver_bacon_e_queijo;
+-- /////////////////////////////////////////////////////////////////////View 4 ////////////////////////////////////////////// --
 
 -- Criando a View V_clientes_com_mais_pedidos
 CREATE OR REPLACE VIEW V_clientes_com_mais_pedidos AS
@@ -44,6 +47,7 @@ ORDER BY numeroDePedidos DESC;
 
 -- Selecionando dados da View V_clientes_com_mais_pedidos
 SELECT * FROM V_clientes_com_mais_pedidos;
+-- /////////////////////////////////////////////////////////////////////View 5 ////////////////////////////////////////////// --
 
 -- Criando a View V_pasteis_veganos_clientes18
 CREATE OR REPLACE VIEW V_pasteis_veganos_clientes18 AS
@@ -60,6 +64,7 @@ ORDER BY numeroDoPedido;
 
 -- Selecionando dados da View V_pasteis_veganos_clientes18
 SELECT * FROM V_pasteis_veganos_clientes18;
+-- /////////////////////////////////////////////////////////////////////View 6 ////////////////////////////////////////////// --
 
 -- Criando a View V_valor_total_pastel
 CREATE OR REPLACE VIEW V_valor_total_pastel AS
@@ -71,7 +76,7 @@ FROM pasteis p;
 
 -- Selecionando dados da View V_valor_total_pastel
 SELECT * FROM V_valor_total_pastel;
-
+-- /////////////////////////////////////////////////////////////////////View 7 ////////////////////////////////////////////// --
 -- Criando a View V_pedidos_pastel_bebida
 CREATE OR REPLACE VIEW V_pedidos_pastel_bebida AS
 SELECT p1.idPedido
@@ -84,6 +89,7 @@ ORDER BY p1.idPedido ASC;
 
 -- Selecionando dados da View V_pedidos_pastel_bebida
 SELECT * FROM V_pedidos_pastel_bebida;
+-- /////////////////////////////////////////////////////////////////////View 8 ////////////////////////////////////////////// --
 
 
 -- Criando a View V_pasteis_mais_vendidos
@@ -96,6 +102,7 @@ ORDER BY quantidadeVendas DESC;
 
 -- Selecionando dados da View V_pasteis_mais_vendidos
 SELECT * FROM V_pasteis_mais_vendidos;
+-- /////////////////////////////////////////////////////////////////////View 9 ////////////////////////////////////////////// --
 
 CREATE OR REPLACE VIEW V_informacoes_dos_pedidos AS
 SELECT c.nomeCliente, c.cpf, e.logradouro, e.numero, e.cep, e.complemento, ct.telefone1, p.idPedido, TIME(p.dataPedido) as HoraDoPedido , s.descricao, f.tipoPagamento
@@ -108,6 +115,42 @@ JOIN formas_pagamentos f ON p.idPagamento = f.idPagamento
 ORDER BY p.idPedido;
 
 SELECT * FROM V_informacoes_dos_pedidos;
+-- /////////////////////////////////////////////////////////////////////View 10 ////////////////////////////////////////////// --
+-- View para buscar telefones
+CREATE OR REPLACE VIEW  V_telefones AS
+SELECT nomeCliente, telefone1, telefone2
+FROM clientes
+JOIN contatos ON clientes.idCliente = contatos.idCliente;
+
+SELECT * FROM V_telefones;
+-- /////////////////////////////////////////////////////////////////////View 11 ////////////////////////////////////////////// --
+
+-- View para buscar por nome
+CREATE VIEW V_nome AS
+SELECT nomeCliente, nomePreferido
+FROM clientes;
+
+SELECT * FROM V_nome;
+-- /////////////////////////////////////////////////////////////////////View 12 ////////////////////////////////////////////// --
+
+-- View para buscar por estado
+CREATE VIEW V_estado AS
+SELECT nomeCliente, estado
+FROM clientes
+JOIN enderecos ON clientes.idCliente = enderecos.idCliente;
+
+SELECT * FROM V_estado;
+-- /////////////////////////////////////////////////////////////////////View 13 ////////////////////////////////////////////// --
+
+-- View para buscar por endereço
+CREATE VIEW V_endereco AS
+SELECT nomeCliente, logradouro, numero, cep, complemento, estado, cidade, bairro
+FROM clientes
+JOIN enderecos ON clientes.idCliente = enderecos.idCliente;
+
+SELECT * FROM V_endereco;
 
 -- Commit para encerrar a transação
 COMMIT;
+
+
