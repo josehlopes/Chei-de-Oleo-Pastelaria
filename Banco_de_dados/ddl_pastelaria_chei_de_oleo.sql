@@ -84,13 +84,13 @@ CREATE TABLE IF NOT EXISTS ingredientes_do_pastel (
 CREATE TABLE IF NOT EXISTS status_pedidos (
     idStatus INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     descricao ENUM('AP', 'C', 'EA', 'SPE')
-)
+);
 
 
 CREATE TABLE IF NOT EXISTS formas_pagamentos (
     idPagamento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     tipoPagamento ENUM('D', 'CC', 'CD', 'PIX') NOT NULL DEFAULT 'D'
-)
+);
 
 
 CREATE TABLE IF NOT EXISTS pedidos (
@@ -143,4 +143,4 @@ CREATE TABLE IF NOT EXISTS log_preco (
     dataLog DATETIME NOT NULL,
     FOREIGN KEY (idProduto)
         REFERENCES produtos (idProduto)
-)
+);

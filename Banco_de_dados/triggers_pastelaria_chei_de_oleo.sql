@@ -89,9 +89,9 @@ VALUES
 
 INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
 VALUES 
-    (38, 1, 2),
-    (38, 4, 3),  
-    (38, 3, 1);  
+    (35, 1, 2),
+    (35, 4, 3),  
+    (35, 3, 1);  
 
 SELECT * FROM pedidos;
 SELECT * FROM itens_pedido;
