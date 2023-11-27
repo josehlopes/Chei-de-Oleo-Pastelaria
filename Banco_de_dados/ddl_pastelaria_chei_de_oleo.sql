@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS contatos (
     telefone1 VARCHAR(100) NOT NULL,
     telefone2 VARCHAR(100),
     email VARCHAR(40) UNIQUE,
-    idCliente INT NOT NULL,
+    idCliente INT NOT NULL UNIQUE,
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente)
 );
 
@@ -121,3 +121,19 @@ CREATE TABLE IF NOT EXISTS itens_pedido (
 );
 
 SELECT * FROM pasteis;
+
+CREATE TABLE IF NOT EXISTS log (
+	idLog INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    usuario VARCHAR(50) NOT NULL,
+    operacao VARCHAR(50),
+    dataLog DATETIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS log_preco (
+    idLogPreco INT PRIMARY KEY AUTO_INCREMENT,
+    idProduto INT NOT NULL,
+    preco_antigo DECIMAL(10, 2) NOT NULL,
+    preco_novo DECIMAL(10, 2) NOT NULL,
+    dataLog DATETIME NOT NULL,
+    FOREIGN KEY (idProduto) REFERENCES produtos(idProduto)
+);

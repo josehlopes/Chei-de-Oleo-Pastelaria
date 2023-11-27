@@ -10,7 +10,7 @@ JOIN contatos ON clientes.idCliente = contatos.idCliente;
 
 -- Selecionando dados da View V_dados_dos_clientes
 SELECT * FROM V_dados_dos_clientes;
-
+#---------------------------------------------------------------------
 -- Criando a View V_ingredientes_do_pastel
 CREATE OR REPLACE VIEW V_ingredientes_do_pastel AS 
 SELECT p.descricao, p.tamanho, i.nome as ingrediente
@@ -21,7 +21,7 @@ ORDER BY descricao;
 
 -- Selecionando dados da View V_ingredientes_do_pastel
 SELECT * FROM V_ingredientes_do_pastel;
-
+#---------------------------------------------------------------------
 -- Criando a View V_ver_bacon_e_queijo
 CREATE OR REPLACE VIEW V_ver_bacon_e_queijo AS 
 SELECT p.descricao, p.tamanho
@@ -33,7 +33,7 @@ GROUP BY p.descricao, p.tamanho;
 
 -- Selecionando dados da View V_ver_bacon_e_queijo
 SELECT * FROM V_ver_bacon_e_queijo;
-
+#---------------------------------------------------------------------
 -- Criando a View V_clientes_com_mais_pedidos
 CREATE OR REPLACE VIEW V_clientes_com_mais_pedidos AS
 SELECT c.nomeCliente, COUNT(p.idPedido) as numeroDePedidos, MONTH(p.dataPedido) as mesDoPedido
@@ -44,7 +44,7 @@ ORDER BY numeroDePedidos DESC;
 
 -- Selecionando dados da View V_clientes_com_mais_pedidos
 SELECT * FROM V_clientes_com_mais_pedidos;
-
+#---------------------------------------------------------------------
 -- Criando a View V_pasteis_veganos_clientes18
 CREATE OR REPLACE VIEW V_pasteis_veganos_clientes18 AS
 SELECT c.nomeCliente, TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) AS idade, pa.descricao, cc.nome, p.idPedido as numeroDoPedido
@@ -60,7 +60,7 @@ ORDER BY numeroDoPedido;
 
 -- Selecionando dados da View V_pasteis_veganos_clientes18
 SELECT * FROM V_pasteis_veganos_clientes18;
-
+#---------------------------------------------------------------------
 -- Criando a View V_valor_total_pastel
 CREATE OR REPLACE VIEW V_valor_total_pastel AS
 SELECT 'Pastel' AS descricao, p.descricao AS detalhe, p.preco AS preco
@@ -71,7 +71,7 @@ FROM pasteis p;
 
 -- Selecionando dados da View V_valor_total_pastel
 SELECT * FROM V_valor_total_pastel;
-
+#---------------------------------------------------------------------
 -- Criando a View V_pedidos_pastel_bebida
 CREATE OR REPLACE VIEW V_pedidos_pastel_bebida AS
 SELECT p1.idPedido
@@ -85,7 +85,7 @@ ORDER BY p1.idPedido ASC;
 -- Selecionando dados da View V_pedidos_pastel_bebida
 SELECT * FROM V_pedidos_pastel_bebida;
 
-
+#---------------------------------------------------------------------
 -- Criando a View V_pasteis_mais_vendidos
 CREATE OR REPLACE VIEW V_pasteis_mais_vendidos AS
 SELECT pa.descricao, i.quantidade as quantidadeVendas
@@ -96,7 +96,7 @@ ORDER BY quantidadeVendas DESC;
 
 -- Selecionando dados da View V_pasteis_mais_vendidos
 SELECT * FROM V_pasteis_mais_vendidos;
-
+#---------------------------------------------------------------------
 CREATE OR REPLACE VIEW V_informacoes_dos_pedidos AS
 SELECT c.nomeCliente, c.cpf, e.logradouro, e.numero, e.cep, e.complemento, ct.telefone1, p.idPedido, TIME(p.dataPedido) as HoraDoPedido , s.descricao, f.tipoPagamento
 FROM clientes c
