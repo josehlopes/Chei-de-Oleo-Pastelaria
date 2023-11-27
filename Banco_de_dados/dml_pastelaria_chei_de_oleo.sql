@@ -1,28 +1,18 @@
-/*DELIMITER $$
-
-START TRANSACTION;
-
-	DECLARE exit HANDLER FOR SQLEXCEPTION SELECT 'Erro ao inserir!' as MESSAGE
-		BEGIN
-			ROLLBACK;
-		END;*/
-    
 INSERT INTO clientes (nomeCliente, nomePreferido, cpf, dataNascimento)
 VALUES 
     ('Alice Ventania', 'Alice', '12345678909', '1992-04-05'),
     ('Bernardo Trovão', 'Bernardo', '98765432101', '1987-10-15'),
     ('Clara Estrela', 'Clara', '23456789012', '1995-12-20'),
     ('Davi Sereno', 'Davi', '87654321098', '1980-07-08'),
-    ('Eva Brisa', 'Eva', '34567890123', '1998-02-28'),
+    ('Eva Brisa', 'Eva', '34567890123', '2007-02-28'),
     ('Fábio Sombra', 'Fábio', '78901234567', '1983-11-11'),
     ('Giovana Lua', 'Giovana', '45678901234', '1991-09-03'),
     ('Henrique Aurora', 'Henrique', '01234567890', '1986-06-22'),
-    ('Isabela Chuva', 'Isabela', '56789012345', '1994-03-12'),
+    ('Isabela Chuva', 'Isabela', '56789012345', '2007-03-12'),
     ('João Trovador', 'João', '21098765432', '1989-08-17');
     
-    SELECT * FROM clientes;
-    
--- Inserção de Endereços    
+-- Visualização dos Clientes
+SELECT * FROM clientes;
 
 INSERT INTO enderecos (logradouro, numero, cep, complemento, estado, cidade, bairro, idCliente)
 VALUES
@@ -37,7 +27,8 @@ VALUES
     ('Rua I', '876', '12345-678', 'Bloco A', 'SC', 'Florianópolis', 'Centro', 9),
     ('Avenida J', '109', '23456-789', 'Loja 1', 'DF', 'Brasília', 'Asa Sul', 10);
     
--- Inserção de Contatos
+-- Visualização dos Endereços
+SELECT * FROM enderecos;
 
 INSERT INTO contatos (telefone1, telefone2, email, idCliente)
 VALUES
@@ -45,17 +36,15 @@ VALUES
     ('(21) 4567-8901', '(21) 9876-5432', 'amante_de_pastel_cliente2@email.com', 2),
     ('(31) 9876-5432', '(31) 1234-5678', 'cliente3_pastelmania@email.com', 3),
     ('(51) 9876-5432', '(51) 1234-5678', 'delicias_de_pastel_cliente4@email.com', 4),
-    ('(71) 9876-5432', '(71) 1234-5678', 'cliente5_sabordopastel@email.com', 5);
-
-INSERT INTO contatos (telefone1, email, idCliente)
-VALUES
-    ('(41) 9876-5432', 'cliente6_pastelaroma@email.com', 6),
-    ('(81) 9876-5432', 'cliente7_pastelcremoso@email.com', 7),
-    ('(85) 9876-5432', 'cliente8_saboresdivinos@email.com', 8),
-    ('(48) 9876-5432', 'cliente9_pastelartesanal@email.com', 9),
-    ('(61) 9876-5432', 'cliente10_amantedomassapequena@email.com', 10);
+    ('(71) 9876-5432', '(71) 1234-5678', 'cliente5_sabordopastel@email.com', 5),
+    ('(41) 9876-5432', NULL,'cliente6_pastelaroma@email.com', 6),
+    ('(81) 9876-5432', NULL,'cliente7_pastelcremoso@email.com', 7),
+    ('(85) 9876-5432', NULL,'cliente8_saboresdivinos@email.com', 8),
+    ('(48) 9876-5432', NULL,'cliente9_pastelartesanal@email.com', 9),
+    ('(61) 9876-5432', NULL,'cliente10_amantedomassapequena@email.com', 10);
     
-    SELECT * FROM contatos;
+-- Visualização dos Contatos
+SELECT * FROM contatos;
 
 -- Inserção de categorias
 
@@ -72,7 +61,7 @@ VALUES
 
 -- Inserção de lanches
 
-INSERT INTO produtos (nomeProduto, preco, idCategoria) 
+INSERT INTO produtos (nomeProduto, precoBase, idCategoria) 
 VALUES
 ('Coxinha', 4.50, 4),
 ('Empada', 3.75, 4),
@@ -82,12 +71,15 @@ VALUES
 
 -- Inserção de bebidas
 
-INSERT INTO produtos (nomeProduto, preco, idCategoria) 
+INSERT INTO produtos (nomeProduto, precoBase, idCategoria) 
 VALUES
 ('Refrigerante', 4.00, 2),
 ('Suco Natural', 5.50, 2);
 
-SELECT * FROM categorias;
+SELECT 
+    *
+FROM
+    categorias;
 
 
 SELECT * FROM produtos;
@@ -138,7 +130,10 @@ VALUES
 (9, 2),
 (9, 6);
 
-SELECT * FROM ingredientes_do_pastel;
+SELECT 
+    *
+FROM
+    ingredientes_do_pastel;
 
 
 -- Inserção de Status de Pedidos
@@ -282,15 +277,60 @@ INSERT INTO itens_pedido (idPedido, idProduto, quantidade)
 VALUES 
     (4, 4, 3), -- 3 Pasteis Veganos para o Pedido do Davi
     (5, 4, 2); -- 2 Pasteis Veganos para o Pedido da Eva;
+    
+-- Inserção de Pedidos com Bebidas
+-- Pedido 1
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (1, 1, 1, 'Pedido da Alice com Bebida, Aguardando Pagamento', '2023-02-01 14:00:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (6, 6, 2);  -- Refrigerantes para o Pedido da Alice
+
+-- Pedido 2
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (2, 3, 2, 'Pedido do Bernardo com Bebida, Em Andamento', '2023-02-02 15:30:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (7, 7, 1), -- 1 Suco Natural para o Pedido do Bernardo
+    (7, 6, 3); -- 3 Refrigerantes para o Pedido do Bernardo
+
+-- Pedido 3
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (3, 2, 4, 'Pedido da Clara com Bebida, Concluído', '2023-02-03 18:45:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (8, 7, 2); -- 2 Suco Natural para o Pedido da Clara
+
+-- Pedido 4
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (4, 1, 3, 'Pedido do Davi com Bebida, Aguardando Pagamento', '2023-02-04 12:00:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (9, 6, 4); -- 4 Refrigerantes para o Pedido do Davi
+
+-- Pedido 5
+INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
+VALUES 
+    (5, 4, 4, 'Pedido da Eva com Bebida, Saiu para Entrega', '2023-02-05 16:15:00');
+
+-- Inserção de Itens nos Pedidos
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
+VALUES 
+    (10, 7, 1); -- 1 Suco Natural para o Pedido da Eva
 
     
--- Visualização dos Pedidos
 SELECT * FROM pedidos;
 
--- Visualização dos Itens nos Pedidos
 SELECT * FROM itens_pedido;
-
-
-/*COMMIT;
-$$
-DELIMITER ;*/
