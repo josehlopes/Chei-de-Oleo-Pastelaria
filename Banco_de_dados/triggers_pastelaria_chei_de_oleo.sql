@@ -119,3 +119,38 @@ SET tamanho = 'G'
 WHERE idPastel = 3;
 
 SELECT * FROM pasteis;
+#---------------------------------------------------------------------
+-- Gatilho para deletar todos os itens_pedido de um pastel quando o pastel é deletado:
+
+DELIMITER $$
+CREATE TRIGGER TR_deleta_itens_pedido_pastel
+BEFORE DELETE ON pasteis
+FOR EACH ROW
+BEGIN
+  DELETE FROM itens_pedido WHERE idPastel = OLD.idPastel;
+END$$
+DELIMITER ;
+
+
+SELECT * FROM ingredientes_do_pastel WHERE idPastel = 1;
+DELETE FROM pasteis WHERE idPastel = 1;
+SELECT * FROM ingredientes_do_pastel WHERE idPastel = 1;
+
+
+
+#---------------------------------------------------------------------
+
+-- Gatilho para deletar todos os itens de um pedido quando o pedido é deletado:
+
+DELIMITER $$
+CREATE TRIGGER T_deleta_itens_pedido
+AFTER DELETE ON pedidos
+FOR EACH ROW
+BEGIN
+  DELETE FROM itens_pedido WHERE idPedido = OLD.idPedido;
+END$$
+DELIMITER ;
+
+
+DELETE FROM pedidos WHERE idPedido = 1;
+SELECT * FROM itens_pedido WHERE idPedido = 1;
