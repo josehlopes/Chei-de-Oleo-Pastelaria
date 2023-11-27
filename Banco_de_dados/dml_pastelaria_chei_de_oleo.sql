@@ -130,7 +130,10 @@ VALUES
 (9, 2),
 (9, 6);
 
-SELECT * FROM ingredientes_do_pastel;
+SELECT 
+    *
+FROM
+    ingredientes_do_pastel;
 
 
 -- Inserção de Status de Pedidos
@@ -328,8 +331,6 @@ VALUES
     (10, 7, 1); -- 1 Suco Natural para o Pedido da Eva
 
     
--- Visualização dos Pedidos
 SELECT * FROM pedidos;
 
--- Visualização dos Itens nos Pedidos
 SELECT * FROM itens_pedido;

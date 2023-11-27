@@ -15,7 +15,10 @@ END$$
 DELIMITER ;
 
 
-SELECT * FROM V_ingredientes_do_pastel;
+SELECT 
+    *
+FROM
+    V_ingredientes_do_pastel;
 #---------------------------------------------------------------------
 DELIMITER $$
 
@@ -32,7 +35,10 @@ DELIMITER ;
 INSERT INTO clientes (nomeCliente, nomePreferido, cpf, dataNascimento)
 VALUES ('Kauã Tempestade', 'Kauã', '12312312312', '1990-05-25');
 
-SELECT * FROM log;
+SELECT 
+    *
+FROM
+    log
 #---------------------------------------------------------------------
 DELIMITER $$
 
