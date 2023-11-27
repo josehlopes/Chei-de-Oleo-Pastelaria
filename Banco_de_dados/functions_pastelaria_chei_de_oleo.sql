@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 CREATE FUNCTION IF NOT EXISTS F_clientes18()
 RETURNS TABLE
 AS
@@ -126,9 +125,3 @@ SELECT F_total_pedidos_status(1); -- Aguardando
 SELECT F_total_pedidos_status(2); -- Concluído
 SELECT F_total_pedidos_status(3); -- Em Andamento
 SELECT F_total_pedidos_status(4); -- Saiu para Entrega
-
-
-
-
-
->>>>>>> Stashed changes
