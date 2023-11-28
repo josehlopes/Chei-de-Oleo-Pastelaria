@@ -38,6 +38,11 @@ CREATE TABLE IF NOT EXISTS categorias (
     nome VARCHAR(20) NOT NULL UNIQUE
 );
 
+CREATE TABLE IF NOT EXISTS tamanhos (
+    idTamanho INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    descricao VARCHAR(50) NOT NULL
+);
+    
 CREATE TABLE IF NOT EXISTS produtos (
     idProduto INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nomeProduto VARCHAR(100),
@@ -49,83 +54,55 @@ CREATE TABLE IF NOT EXISTS produtos (
 
 CREATE TABLE IF NOT EXISTS ingredientes (
     idIngrediente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL,
-    preco DECIMAL(10 , 2 ) NOT NULL,
-    idCategoria INT NOT NULL,
-    FOREIGN KEY (idCategoria)
-        REFERENCES categorias (idCategoria)
+    nome VARCHAR(100) NOT NULL
 );
-
-CREATE TABLE IF NOT EXISTS pasteis (
-    idPastel INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    descricao VARCHAR(100),
-    tamanho ENUM('P', 'M', 'G') NOT NULL DEFAULT 'P',
-    preco DECIMAL(10 , 2 ) NOT NULL,
-    idProduto INT DEFAULT 4,
-    idCategoria INT NOT NULL,
-    FOREIGN KEY (idCategoria)
-        REFERENCES categorias (idCategoria),
-    FOREIGN KEY (idProduto)
-        REFERENCES produtos (idProduto)
-);
-
 
 CREATE TABLE IF NOT EXISTS ingredientes_do_pastel (
     idIdp INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    idPastel INT NOT NULL,
+    idProduto INT NOT NULL,
     idIngrediente INT NOT NULL,
-    FOREIGN KEY (idPastel)
-        REFERENCES pasteis (idPastel),
+    FOREIGN KEY (idProduto)
+        REFERENCES produtos (idProduto),
     FOREIGN KEY (idIngrediente)
         REFERENCES ingredientes (idIngrediente)
 );
-
 
 CREATE TABLE IF NOT EXISTS status_pedidos (
     idStatus INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     descricao ENUM('AP', 'C', 'EA', 'SPE')
 );
 
-
 CREATE TABLE IF NOT EXISTS formas_pagamentos (
     idPagamento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     tipoPagamento ENUM('D', 'CC', 'CD', 'PIX') NOT NULL DEFAULT 'D'
 );
 
-
 CREATE TABLE IF NOT EXISTS pedidos (
     idPedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     idCliente INT NOT NULL,
+	valor DECIMAL (10, 2),
     dataPedido DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     idStatus INT NOT NULL,
     idPagamento INT NOT NULL,
     obs VARCHAR(100),
-
     FOREIGN KEY (idCliente) REFERENCES clientes (idCliente),
-
     FOREIGN KEY (idStatus) REFERENCES status_pedidos (idStatus),
-
     FOREIGN KEY (idPagamento) REFERENCES formas_pagamentos (idPagamento)
 );
-
 
 CREATE TABLE IF NOT EXISTS itens_pedido (
     idDetalhe INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     idPedido INT NOT NULL,
     idProduto INT NOT NULL,
     quantidade INT NOT NULL,
-    idPastel INT,
-    idIngrediente INT,
-    FOREIGN KEY (idIngrediente)
-        REFERENCES ingredientes (idIngrediente),
-    FOREIGN KEY (idPastel)
-        REFERENCES pasteis (idPastel),
+    idTamanho INT NOT NULL,
+    FOREIGN KEY (idTamanho)
+        REFERENCES tamanhos (idTamanho),
     FOREIGN KEY (idPedido)
         REFERENCES pedidos (idPedido),
     FOREIGN KEY (idProduto)
         REFERENCES produtos (idProduto)
 );
-
 
 CREATE TABLE IF NOT EXISTS log (
     idLog INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -133,7 +110,6 @@ CREATE TABLE IF NOT EXISTS log (
     operacao VARCHAR(50),
     dataLog DATETIME NOT NULL
 );
-
 
 CREATE TABLE IF NOT EXISTS log_preco (
     idLogPreco INT PRIMARY KEY AUTO_INCREMENT,
