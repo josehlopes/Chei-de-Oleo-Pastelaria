@@ -55,7 +55,8 @@ VALUES
 ('Ingredientes'),
 ('Lanches'),
 ('Comum'),
-('Pasteis');
+('Pasteis'),
+('Pasteis Veganos');
 -- Inserção de Produtos
 
 INSERT INTO produtos (nomeProduto, precoBase, idCategoria) 
@@ -144,9 +145,9 @@ SELECT * FROM pedidos;
 INSERT INTO produtos (nomeProduto, precoBase, idCategoria)
 VALUES
 
-    ('Pastel de Queijo', 5.99, 6),
-    ('Pastel de Carne', 6.99, 6),
-    ('Pastel Vegano', 7.50, 1);
+    ('Pastel de Queijo', 4.00, 6),
+    ('Pastel de Carne', 4.00, 6),
+    ('Pastel de Tomate', 4.00, 7);
     
 SELECT * FROM produtos;
 
@@ -162,29 +163,33 @@ VALUES
 -- Atualização do Pastel Vegano
 INSERT INTO ingredientes_do_pastel (idProduto, idIngrediente)
 VALUES
-    ((SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel Vegano'), 3), -- Tomate
-    ((SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel Vegano'), 4); -- Cebola
-
+    ((SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 3); -- Tomate
+    
 SELECT * FROM ingredientes_do_pastel;
 
 INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
 VALUES (1, 11.98, '2023-11-25 12:30:00', 1, 2, 'Pedido de Pastel de Queijo para Alice');
 
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
-VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel de Queijo para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Queijo'), 2, 3);
 
 INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
 VALUES (1, 7.50, '2023-12-10 15:45:00', 1, 2, 'Pedido de Pastel Vegano para Alice');
 
 INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
-VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel Vegano para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel Vegano'), 1, 2);
+VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel Vegano para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 1, 2);
 
 INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
 VALUES
-    (17, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel Vegano'), 3, 1),
-    (17, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel Vegano'), 2, 2);
+    (17, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 3, 1),
+    (17, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 2, 2);
 
-SELECT * FROM itens_pedido WHERE idPedido = 16;
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel de Queijo para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Queijo'), 2, 3);
+
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES
+    (16, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Refrigerante'), 1, 4);
+
+SELECT * FROM itens_pedido;
 
 
 

@@ -1,7 +1,7 @@
 DELIMITER $$
 
 CREATE OR REPLACE TRIGGER TR_insere_ingredientes
-AFTER INSERT ON pasteis
+AFTER INSERT ON produtos
 FOR EACH ROW
 BEGIN    
     DECLARE idPastelNovo INT;

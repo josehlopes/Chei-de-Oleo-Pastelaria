@@ -1,3 +1,4 @@
+#Proc1
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE P_cadastrar_cliente (
     IN p_nomeCliente VARCHAR(100),
@@ -70,6 +71,7 @@ SELECT
 FROM
     V_dados_dos_clientes;
 #----------------------------------------
+#Proc2
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE P_cadastrar_produto (
     IN p_nomeProduto VARCHAR(100),
@@ -99,8 +101,49 @@ CALL P_cadastrar_produto(
      4
 );
 
+CALL P_cadastrar_produto(
+	'Hamburguer',
+	 20.00,
+     4
+);
+
 SELECT * FROM produtos;
 #----------------------------------------
+#Proc3
+DELIMITER $$
+CREATE OR REPLACE PROCEDURE P_cadastrar_pastel(
+    IN p_nomeProduto VARCHAR(100),
+    IN p_preco DECIMAL(10, 2),
+    IN p_categoria INT NOT NULL,
+    IN p_ing1 INT NOT NULL,
+    IN p_ing2 INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO produtos (nomeProduto, precoBase, idCategoria)
+    VALUES (p_nomeProduto, p_preco, p_categoria);
+    
+	SET codigo_produto = LAST_INSERT_ID();
+    
+	INSERT INTO ingredientes_do_pastel (idProduto, idIngrediente)
+    VALUES (codigo_produto, p_ing1);
+    
+    INSERT INTO ingredientes_do_pastel (idProduto, idIngrediente)
+    VALUES (codigo_produto, p_ing2)
+    
+    COMMIT;
+END$$
+
+DELIMITER ;
+
+#----------------------------------------
+#Proc4
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE P_atualiza_preco_produto(
 	IN p_nomeProduto VARCHAR(100), 
@@ -112,48 +155,5 @@ CREATE OR REPLACE PROCEDURE P_atualiza_preco_produto(
 		END$$
         
 DELIMITER ;
-SET SQL_SAFE_UPDATES = 0;
 CALL P_atualiza_preco_produto('Coxinha', 10.00);
-SET SQL_SAFE_UPDATES = 1;
-SELECT * FROM produtos
-WHERE nomeProduto = 'Coxinha';
-#----------------------------------------
-DELIMITER $$
-CREATE PROCEDURE P_insere_pedido_cliente(
-	IN p_nomeCliente VARCHAR(100), 
-	IN p_idStatus INT, 
-	IN p_idPagamento INT, 
-	IN p_obs VARCHAR(100))
-		BEGIN
-        
-		  DECLARE codigo_cliente INT;
-		  SELECT idCliente INTO codigo_cliente FROM clientes WHERE nomeCliente = p_nomeCliente;
-		  INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs)
-		  VALUES (codigo_cliente, p_idStatus, p_idPagamento, p_obs);
-  
-		END$$
-        
-DELIMITER ;
-
-SELECT * FROM pedidos;
-
-CALL P_insere_pedido_cliente('Bernardo Trovão', 2, 1, 'TESTE');
-CALL P_insere_pedido_cliente('Bernardo Trovão', 2, 1, 'TESTE2');
-
-SELECT * FROM pedidos
-WHERE idCliente = (SELECT idCliente FROM clientes WHERE nomeCliente = 'Bernardo Trovão')
-#----------------------------------------
-
-DELIMITER $$
-CREATE OR REPLACE PROCEDURE P_insere_ingrediente_atualiza_preco(IN p_nomeIngrediente VARCHAR(100), IN p_preco DECIMAL(10, 2), IN p_idCategoria INT)
-BEGIN
-  INSERT INTO ingredientes (nome, preco, idCategoria)
-  VALUES (p_nomeIngrediente, p_preco, p_idCategoria);
-
-  UPDATE produtos
-  SET precoBase = precoBase + p_preco
-  WHERE idCategoria = p_idCategoria;
-END$$
-DELIMITER ;
-CALL P_insere_ingrediente_atualiza_preco('Tomate', 2.5, 3);
-SELECT * FROM ingredientes;
+SELECT * FROM produtos;

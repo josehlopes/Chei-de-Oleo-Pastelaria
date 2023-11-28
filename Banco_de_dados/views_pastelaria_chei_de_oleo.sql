@@ -1,4 +1,3 @@
--- Início da Transação
 START TRANSACTION;
 -- /////////////////////////////////////////////////////////////////////View 1 ////////////////////////////////////////////// --
 CREATE OR REPLACE VIEW V_dados_dos_clientes AS 
@@ -53,20 +52,28 @@ JOIN produtos po ON po.idProduto = i.idProduto
 JOIN categorias cc ON po.idCategoria = cc.idCategoria
 JOIN clientes ON c.idCliente = p.idCliente
 WHERE TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) > 18
-AND cc.nome = 'Veganos'
+AND cc.nome = 'Veganos' OR 'Pasteis Veganos'
 ORDER BY numeroDoPedido;
 
 SELECT * FROM V_pasteis_veganos_clientes18;
 -- /////////////////////////////////////////////////////////////////////View 6 ////////////////////////////////////////////// --
+DELIMITER $$
 
 CREATE OR REPLACE VIEW V_valor_total_pastel AS
-SELECT 'Pastel' AS descricao, p.descricao AS detalhe, p.preco AS preco
-FROM pasteis p
-UNION ALL
-SELECT 'Total', '', SUM(p.preco)
-FROM pasteis p;
+SELECT p.nomeProduto, COUNT(*) AS quantidadeVendas, SUM(p.precoBase * ip.quantidade) AS valorTotal
+FROM produtos p
+JOIN itens_pedido ip ON p.idProduto = ip.idProduto
+WHERE p.idCategoria = 6 OR p.idCategoria = 7
+GROUP BY p.nomeProduto;
 
-SELECT * FROM V_valor_total_pastel;
+SELECT nomeProduto, quantidadeVendas, valorTotal, (SELECT COALESCE(SUM(valorTotal), 0) FROM V_valor_total_pastel) AS totalGeralVendas
+FROM V_valor_total_pastel;
+
+$$
+DELIMITER ;
+
+
+
 -- /////////////////////////////////////////////////////////////////////View 7 ////////////////////////////////////////////// --
 CREATE OR REPLACE VIEW V_pedidos_pastel_bebida AS
 SELECT p1.idPedido
@@ -103,38 +110,9 @@ ORDER BY p.idPedido;
 
 SELECT * FROM V_informacoes_dos_pedidos;
 -- /////////////////////////////////////////////////////////////////////View 10 ////////////////////////////////////////////// --
-CREATE OR REPLACE VIEW  V_telefones AS
-SELECT nomeCliente, telefone1, telefone2
-FROM clientes
-JOIN contatos ON clientes.idCliente = contatos.idCliente;
+CREATE OR REPLACE VIEW  V_ AS
 
-SELECT * FROM V_telefones;
 -- /////////////////////////////////////////////////////////////////////View 11 ////////////////////////////////////////////// --
 
--- View para buscar por nome
-CREATE VIEW V_nome AS
-SELECT nomeCliente, nomePreferido
-FROM clientes;
-
-SELECT * FROM V_nome;
--- /////////////////////////////////////////////////////////////////////View 12 ////////////////////////////////////////////// --
-
--- View para buscar por estado
-CREATE VIEW V_estado AS
-SELECT nomeCliente, estado
-FROM clientes
-JOIN enderecos ON clientes.idCliente = enderecos.idCliente;
-
-SELECT * FROM V_estado;
--- /////////////////////////////////////////////////////////////////////View 13 ////////////////////////////////////////////// --
-
-CREATE VIEW V_endereco AS
-SELECT nomeCliente, logradouro, numero, cep, complemento, estado, cidade, bairro
-FROM clientes
-JOIN enderecos ON clientes.idCliente = enderecos.idCliente;
-
-SELECT * FROM V_endereco;
-
-COMMIT;
 
 
