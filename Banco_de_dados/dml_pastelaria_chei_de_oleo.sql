@@ -50,13 +50,13 @@ SELECT * FROM contatos;
 
 INSERT INTO categorias (nome) 
 VALUES
-('Veganos'),
-('Bebidas'),
-('Ingredientes'),
-('Lanches'),
-('Comum'),
-('Pasteis'),
-('Pasteis Veganos');
+('Veganos'), #1
+('Bebidas'), #2
+('Especial'), #3
+('Lanches'), #4
+('Comum'), #5
+('Pastel Comum'), #6
+('Pastel Vegano'); #7
 -- Inserção de Produtos
 
 INSERT INTO produtos (nomeProduto, precoBase, idCategoria) 
@@ -79,14 +79,17 @@ SELECT * FROM produtos;
 
 -- Inserção de ingredientes
 
-INSERT INTO ingredientes (nome)
-	VALUES
-('Frango'),
-('Queijo'),
-('Tomate'),
-('Cebola'),
-('Bacon'),
-('Carne');
+INSERT INTO ingredientes (nome , idCategoria) 
+VALUES
+('Frango', 5),
+('Queijo', 5),
+('Tomate', 1),
+('Cebola', 1),
+('Bacon', 5),
+('Carne', 5);
+INSERT INTO ingredientes (nome, idCategoria) 
+VALUES
+('Oregano', 1);
 
 SELECT * FROM ingredientes;
 

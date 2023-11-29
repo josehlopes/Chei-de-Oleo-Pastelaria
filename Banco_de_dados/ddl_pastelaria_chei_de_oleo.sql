@@ -54,7 +54,10 @@ CREATE TABLE IF NOT EXISTS produtos (
 
 CREATE TABLE IF NOT EXISTS ingredientes (
     idIngrediente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    nome VARCHAR(100) NOT NULL
+    nome VARCHAR(100) NOT NULL,
+	idCategoria INT NOT NULL,
+    FOREIGN KEY (idCategoria)
+        REFERENCES categorias (idCategoria)
 );
 
 CREATE TABLE IF NOT EXISTS ingredientes_do_pastel (

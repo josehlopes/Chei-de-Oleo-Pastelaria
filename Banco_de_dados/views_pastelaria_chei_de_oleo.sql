@@ -1,4 +1,3 @@
-START TRANSACTION;
 -- /////////////////////////////////////////////////////////////////////View 1 ////////////////////////////////////////////// --
 CREATE OR REPLACE VIEW V_dados_dos_clientes AS 
 SELECT nomeCliente, cpf, logradouro, numero, complemento, telefone1, email 
@@ -18,7 +17,7 @@ ORDER BY nomeProduto;
 
 SELECT * FROM V_ingredientes_do_pastel;
 -- /////////////////////////////////////////////////////////////////////View 3 ////////////////////////////////////////////// --
-
+# 3. Liste todos os pastéis que possuem bacon e queijo em seu recheio. 
 CREATE OR REPLACE VIEW V_ver_bacon_e_queijo AS 
 SELECT p.nomeProduto as Nome
 FROM produtos p
@@ -29,6 +28,7 @@ GROUP BY p.nomeProduto;
 
 SELECT * FROM V_ver_bacon_e_queijo;
 -- /////////////////////////////////////////////////////////////////////View 4 ////////////////////////////////////////////// --
+# 2. Liste os clientes com maior número de pedidos realizados em 1 ano agrupados por mês 
 
 CREATE OR REPLACE VIEW V_clientes_com_mais_pedidos AS
 
@@ -36,15 +36,15 @@ CREATE OR REPLACE VIEW V_clientes_com_mais_pedidos AS
     FROM clientes c
 	JOIN pedidos p ON c.idCliente = p.idCliente
     WHERE p.dataPedido >= DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR)
-    GROUP BY anoDoPedido , mesDoPedido
+    GROUP BY mesDoPedido
     ORDER BY anoDoPedido DESC , mesDoPedido DESC , numeroDePedidos DESC;
 
 SELECT * FROM V_clientes_com_mais_pedidos;
 
 -- /////////////////////////////////////////////////////////////////////View 5 ////////////////////////////////////////////// --
-
+# 1. Liste os nomes de todos os pastéis veganos vendidos para pessoas com mais de 18 anos.
 CREATE OR REPLACE VIEW V_pasteis_veganos_clientes18 AS
-SELECT DISTINCT c.nomeCliente, TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) AS idade, po.nomeProduto, cc.nome, p.idPedido as numeroDoPedido, i.quantidade as quantidade
+SELECT DISTINCT c.nomeCliente, TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) AS idade, po.nomeProduto, cc.nome as categoria, p.idPedido as numeroDoPedido, i.quantidade as quantidade
 FROM clientes c
 JOIN pedidos p
 JOIN itens_pedido i ON i.idPedido = p.idPedido
@@ -52,11 +52,13 @@ JOIN produtos po ON po.idProduto = i.idProduto
 JOIN categorias cc ON po.idCategoria = cc.idCategoria
 JOIN clientes ON c.idCliente = p.idCliente
 WHERE TIMESTAMPDIFF(YEAR, c.dataNascimento, CURDATE()) > 18
-AND cc.nome = 'Veganos' OR 'Pasteis Veganos'
+AND cc.nome = 'Veganos' OR cc.nome = 'Pasteis Veganos'
 ORDER BY numeroDoPedido;
 
 SELECT * FROM V_pasteis_veganos_clientes18;
 -- /////////////////////////////////////////////////////////////////////View 6 ////////////////////////////////////////////// --
+# 4. Mostre o valor de venda total de todos os pastéis cadastrados no sistema. 
+
 DELIMITER $$
 
 CREATE OR REPLACE VIEW V_valor_total_pastel AS
@@ -66,15 +68,16 @@ JOIN itens_pedido ip ON p.idProduto = ip.idProduto
 WHERE p.idCategoria = 6 OR p.idCategoria = 7
 GROUP BY p.nomeProduto;
 
-SELECT nomeProduto, quantidadeVendas, valorTotal, (SELECT COALESCE(SUM(valorTotal), 0) FROM V_valor_total_pastel) AS totalGeralVendas
-FROM V_valor_total_pastel;
+SELECT SUM(quantidadeVendas) as pasteisVendidos, (SELECT COALESCE(SUM(valorTotal), 0) FROM V_valor_total_pastel ) AS totalGeralVendas
+FROM V_valor_total_pastel
+GROUP BY totalGeralVendas;
 
 $$
 DELIMITER ;
 
-
-
 -- /////////////////////////////////////////////////////////////////////View 7 ////////////////////////////////////////////// --
+# 5. Liste todos os pedidos onde há pelo menos um pastel e uma bebida. 
+
 CREATE OR REPLACE VIEW V_pedidos_pastel_bebida AS
 SELECT p1.idPedido
 FROM pedidos p1
@@ -87,13 +90,15 @@ ORDER BY p1.idPedido ASC;
 
 SELECT * FROM V_pedidos_pastel_bebida;
 -- /////////////////////////////////////////////////////////////////////View 8 ////////////////////////////////////////////// --
+# 6. Liste quais são os pastéis mais vendidos, incluindo a quantidade de vendas em ordem crescente.
 
 CREATE OR REPLACE VIEW V_pasteis_mais_vendidos AS
 SELECT po.nomeProduto, COUNT(i.quantidade) as quantidadeVendas
 FROM produtos po
 JOIN itens_pedido i ON po.idProduto = i.idProduto
+WHERE po.idCategoria IN (6, 7)
 GROUP BY po.nomeProduto
-ORDER BY quantidadeVendas DESC;
+ORDER BY quantidadeVendas ASC;
 
 SELECT * FROM V_pasteis_mais_vendidos;
 -- /////////////////////////////////////////////////////////////////////View 9 ////////////////////////////////////////////// --

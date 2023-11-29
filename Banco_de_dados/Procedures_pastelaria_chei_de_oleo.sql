@@ -1,3 +1,4 @@
+# 7. Crie pelo menos 3 procedures
 #Proc1
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE P_cadastrar_cliente (
@@ -66,10 +67,7 @@ CALL P_cadastrar_cliente(
     'maria2022.oliveira@example.com'
 );
 
-SELECT 
-    *
-FROM
-    V_dados_dos_clientes;
+SELECT * FROM V_dados_dos_clientes;
 #----------------------------------------
 #Proc2
 DELIMITER $$
@@ -85,10 +83,9 @@ BEGIN
     END;
 
     START TRANSACTION;
-
+	
     INSERT INTO produtos (nomeProduto, precoBase, idCategoria)
-    VALUES (p_nomeProduto, p_preco, p_idCategoria);
-
+    VALUES (p_nomeProduto, p_preco, p_idCategoria);	
     COMMIT;
 END$$
 
@@ -109,23 +106,27 @@ CALL P_cadastrar_produto(
 
 SELECT * FROM produtos;
 #----------------------------------------
+#Aqui eu assumi que todo pastel vai trabalhar com 2 ingredientes para não precisar tratar vários casos de inserção
 #Proc3
 DELIMITER $$
 CREATE OR REPLACE PROCEDURE P_cadastrar_pastel(
+
     IN p_nomeProduto VARCHAR(100),
     IN p_preco DECIMAL(10, 2),
-    IN p_categoria INT NOT NULL,
-    IN p_ing1 INT NOT NULL,
+    IN p_categoria INT,
+    IN p_ing1 INT,
     IN p_ing2 INT
 )
 BEGIN
+
+	DECLARE codigo_produto INT;
+
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
     END;
 
     START TRANSACTION;
-
     INSERT INTO produtos (nomeProduto, precoBase, idCategoria)
     VALUES (p_nomeProduto, p_preco, p_categoria);
     
@@ -135,13 +136,24 @@ BEGIN
     VALUES (codigo_produto, p_ing1);
     
     INSERT INTO ingredientes_do_pastel (idProduto, idIngrediente)
-    VALUES (codigo_produto, p_ing2)
+    VALUES (codigo_produto, p_ing2);
     
     COMMIT;
+    
 END$$
 
 DELIMITER ;
 
+CALL P_cadastrar_pastel(
+	'Pastel de Cebola',
+    4.00,
+    7,
+    4,
+    7
+);
+
+SELECT * FROM V_ingredientes_do_pastel;
+SELECT * FROM produtos;
 #----------------------------------------
 #Proc4
 DELIMITER $$
