@@ -139,7 +139,8 @@ VALUES
     (2, 14.50, '2023-12-12 17:15:00', 2, 3, 'Pedido Dezembro'),
     (3, 28.75, '2023-05-22 11:45:00', 3, 1, 'Pedido Maio (Repetido)'),
     (4, 24.00, '2023-08-28 19:00:00', 4, 4, 'Pedido Agosto (Repetido)'),
-    (5, 17.50, '2023-09-15 13:30:00', 1, 2, 'Pedido Setembro (Repetido)');
+    (5, 17.50, '2023-09-15 13:30:00', 1, 2, 'Pedido Setembro (Repetido)'),
+    (2, 15.75, '2023-02-05 18:45:00', 2, 3, 'Pedido Fevereiro (Repetido');
     
 SELECT * FROM pedidos;
 
