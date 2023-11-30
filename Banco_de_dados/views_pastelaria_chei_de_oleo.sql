@@ -68,9 +68,9 @@ JOIN itens_pedido ip ON p.idProduto = ip.idProduto
 WHERE p.idCategoria = 6 OR p.idCategoria = 7
 GROUP BY p.nomeProduto;
 
+#AQUI VOCÊ SOMA O VALOR TOTAL DE VENDAS DE CADA TIPO DE PASTEL E RETORNA APENAS QUANTOS PASTEIS FORAM VENDIDOS E O VALOR SOMADO DE TODOS ELES
 SELECT SUM(quantidadeVendas) as pasteisVendidos, (SELECT COALESCE(SUM(valorTotal), 0) FROM V_valor_total_pastel ) AS totalGeralVendas
-FROM V_valor_total_pastel
-GROUP BY totalGeralVendas;
+FROM V_valor_total_pastel;
 
 $$
 DELIMITER ;
