@@ -71,36 +71,6 @@ VALUES(10, 50.00, CURRENT_TIMESTAMP(), 1 , 1 , 'Teste desconto sem aniversario')
 
 SELECT * FROM pedidos;
 #---------------------------------------------------------------------
-#NÃO FUNCIONAL
-DELIMITER $$
-
-CREATE OR REPLACE TRIGGER TR_atualiza_valor_total
-AFTER INSERT ON itens_pedido
-FOR EACH ROW
-BEGIN
-  DECLARE novo_valor DECIMAL;
-
-  SET novo_valor = COALESCE((SELECT SUM(quantidade * produtos.precoBase) FROM itens_pedido WHERE idPedido = NEW.idPedido), 0);
-
-  UPDATE pedidos p
-  SET p.valor = novo_valor
-  WHERE p.idPedido = NEW.idPedido;
-END;
-
-$$
-
-DELIMITER ;
-
-INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
-VALUES
-    (1, 25.50, '2023-12-20 15:30:00', 1, 2, 'Pedido de Pastel Misto para Alice');
-    
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
-VALUES
-	(21, 5 , 2, 4),
-	(21, 1 , 2, 1);
-    
-SELECT * FROM pedidos;
 
 
 
