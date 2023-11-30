@@ -1,4 +1,5 @@
-<<<<<<< Updated upstream
+# 8. Crie pelo menos 3 funções
+
 CREATE FUNCTION IF NOT EXISTS F_clientes18()
 RETURNS TABLE
 AS
@@ -7,7 +8,6 @@ FROM clientes
 WHERE TIMESTAMPDIFF(YEAR, dataNascimento, CURDATE()) > 18;
 
 SELECT * FROM F_clientes18;
-=======
 /**************************************************************** Função 1 ****************************************************************/
 /* Nesta função, criei um mecanismo para contar o número total de pedidos em um determinado mês e ano. */
 
@@ -126,9 +126,3 @@ SELECT F_total_pedidos_status(1); -- Aguardando
 SELECT F_total_pedidos_status(2); -- Concluído
 SELECT F_total_pedidos_status(3); -- Em Andamento
 SELECT F_total_pedidos_status(4); -- Saiu para Entrega
-
-
-
-
-
->>>>>>> Stashed changes
