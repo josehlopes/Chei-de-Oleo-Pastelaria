@@ -136,11 +136,65 @@ ORDER BY vendas DESC;
 
 SELECT * FROM V_categoria_mais_pedida;
 -- /////////////////////////////////////////////////////////////////////View 12 ////////////////////////////////////////////// --
-CREATE OR REPLACE VIEW  V_produtos_preferidos_de_cada_cliente AS
-SELECT c.nomeCliente AS cliente, p.nomeProduto AS produto, COUNT(i.quantidade) as
+CREATE OR REPLACE VIEW V_produtos_preferidos_de_cada_cliente AS
+SELECT cliente, preferido
+FROM (
+    SELECT
+        c.nomeCliente AS cliente,
+        p.nomeProduto AS preferido,
+        i.quantidade,
+        RANK() OVER (PARTITION BY c.idCliente ORDER BY i.quantidade DESC) AS ranking
+    FROM
+        itens_pedido i
+    JOIN pedidos pdd ON i.idPedido = pdd.idPedido
+    JOIN clientes c ON c.idCliente = pdd.idCliente
+    JOIN produtos p ON p.idProduto = i.idProduto
+) ranked
+WHERE ranking = 1
+GROUP BY cliente
+ORDER BY cliente;
+
+SELECT * FROM V_produtos_preferidos_de_cada_cliente;
+
+SELECT * FROM itens_pedido;
+-- /////////////////////////////////////////////////////////////////////View 13 ////////////////////////////////////////////// --
+CREATE OR REPLACE VIEW V_pedidos_do_cliente AS
+SELECT c.nomeCliente AS cliente, p.idPedido AS pedido
+FROM clientes c
+JOIN pedidos p ON c.idCliente = p.idCliente
+ORDER BY cliente;
+
+SELECT * FROM V_pedidos_do_cliente;
+-- /////////////////////////////////////////////////////////////////////View 14 ////////////////////////////////////////////// --
+CREATE OR REPLACE VIEW V_itens_do_pedido AS
+SELECT p.nomeProduto AS item, pdd.idPedido AS pedido, i.quantidade as quantidade
 FROM itens_pedido i
-JOIN pedidos pdd ON i.idPedido = pdd.idPedido
-JOIN clientes c ON c.idCliente = pdd.idCliente
 JOIN produtos p ON p.idProduto = i.idProduto
+JOIN pedidos pdd ON pdd.idPedido = i.idPedido
+ORDER BY pedido;
 
+SELECT * FROM V_itens_do_pedido;
+-- /////////////////////////////////////////////////////////////////////View 14 ////////////////////////////////////////////// --
+CREATE OR REPLACE VIEW V_log_de_alteracao AS
+SELECT l.idProduto AS id, p.nomeProduto AS produto, l.preco_antigo AS precoAntigo, l.preco_novo AS precoNovo, l.dataLog as dataDeAlteracao
+FROM log_preco L
+JOIN produtos p ON p.idProduto = l.idProduto;
 
+SELECT * FROM V_log_de_alteracao;
+-- /////////////////////////////////////////////////////////////////////View 15 ////////////////////////////////////////////// --
+CREATE OR REPLACE VIEW V_top_formas_de_pagamento AS
+SELECT f.tipoPagamento AS forma, COUNT(pdd.idPagamento) as numeroDePagamentos
+FROM formas_pagamentos f
+JOIN pedidos pdd ON f.idPagamento = pdd.idPagamento
+GROUP BY forma
+ORDER BY numeroDePagamentos DESC;
+
+SELECT * FROM V_top_formas_de_pagamento;
+-- /////////////////////////////////////////////////////////////////////View 16 ////////////////////////////////////////////// --
+CREATE OR REPLACE VIEW V_10_pedidos_mais_recentes AS
+SELECT pdd.idPedido AS ID, pdd.dataPedido AS dataP
+FROM pedidos pdd
+ORDER BY dataP
+LIMIT 10;
+
+SELECT * FROM V_10_pedidos_mais_recentes;

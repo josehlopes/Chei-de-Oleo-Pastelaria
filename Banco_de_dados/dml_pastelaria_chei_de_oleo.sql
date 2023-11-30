@@ -178,7 +178,7 @@ INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
 VALUES (1, 7.50, '2023-12-10 15:45:00', 1, 2, 'Pedido de Pastel Vegano para Alice');
 
 INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
-VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel Vegano para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 1, 2);
+VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel Vegano para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 1, 6);
 
 INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
 VALUES
@@ -194,5 +194,33 @@ VALUES
 
 SELECT * FROM itens_pedido;
 
+INSERT INTO pedidos (idCliente, valor, idStatus, idPagamento, obs)
+VALUES
+    (1, 15.99, 1, 1, 'Pedido do cliente Alice Ventania'),
+    (2, 25.99, 1, 2, 'Pedido do cliente Bernardo Trovão'),
+    (3, 12.99, 1, 1, 'Pedido do cliente Clara Estrela'),
+    (4, 18.99, 1, 3, 'Pedido do cliente Davi Sereno'),
+    (5, 8.99, 1, 4, 'Pedido do cliente Eva Brisa'),
+    (6, 22.99, 1, 2, 'Pedido do cliente Fábio Sombra'),
+    (7, 19.99, 1, 3, 'Pedido do cliente Giovana Lua'),
+    (8, 14.99, 1, 1, 'Pedido do cliente Henrique Aurora'),
+    (9, 16.99, 1, 2, 'Pedido do cliente Isabela Chuva'),
+    (10, 10.99, 1, 4, 'Pedido do cliente João Trovador');
 
+SELECT * FROM pedidos;
+
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES
+    (1, 1, 2, 3),   -- 2 Coxinhas Médias
+    (2, 4, 1, 1),   -- 1 Croissant Grande
+    (3, 5, 5, 5),   -- 3 Empadas Médias
+    (4, 2, 1, 3),   -- 1 Kibe Pequeno
+    (5, 3, 2, 1),   -- 2 Croissants Grandes
+    (6, 5, 1, 5),   -- 1 Refrigerante de 500ml
+    (7, 1, 2, 4),   -- 2 Coxinhas Grandes
+    (8, 4, 3, 6),   -- 3 Empadas Grandes
+    (9, 2, 1, 2),   -- 1 Kibe Médio
+    (10, 3, 2, 1);  -- 2 Croissants Grandes
+
+SELECT * FROM itens_pedido;
 
