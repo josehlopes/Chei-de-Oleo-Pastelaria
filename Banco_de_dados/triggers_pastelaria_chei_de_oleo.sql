@@ -103,5 +103,31 @@ VALUES
 SELECT * FROM pedidos;
 
 
+DELIMITER $$
+CREATE OR REPLACE TRIGGER TR_desconto_pastel_quarta_feira
+BEFORE INSERT ON pedidos
+FOR EACH ROW
+BEGIN
+    DECLARE dia_semana INT;
+    DECLARE data_pedido DATE;
+    DECLARE preco_base DECIMAL(10, 2);
+
+    SELECT p.dataPedido, pr.precoBase INTO data_pedido, preco_base
+    FROM pedidos p
+    JOIN produtos pr ON pr.idProduto = NEW.idProduto
+    WHERE p.idPedido = NEW.idPedido;
+    
+    select * from produtos;
+    select * from pedidos;
+    SET dia_semana = DAYOFWEEK(data_pedido);
+    IF dia_semana = 4 AND NEW.idProduto = 7 THEN
+        SET preco_base = preco_base - (preco_base * 0.25);
+    END IF;
+END $$
+DELIMITER ;
+
+INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
+VALUES (1, 11.98, '2023-11-29 16:30:00', 1, 2, 'Pedido de Pastel de Queijo para Alice quarta');
+
 
 

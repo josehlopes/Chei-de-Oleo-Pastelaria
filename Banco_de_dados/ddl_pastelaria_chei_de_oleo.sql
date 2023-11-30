@@ -123,3 +123,4 @@ CREATE TABLE IF NOT EXISTS log_preco (
     FOREIGN KEY (idProduto)
         REFERENCES produtos (idProduto)
 );
+
