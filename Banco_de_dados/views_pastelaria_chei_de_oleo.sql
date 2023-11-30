@@ -137,7 +137,7 @@ ORDER BY vendas DESC;
 SELECT * FROM V_categoria_mais_pedida;
 -- /////////////////////////////////////////////////////////////////////View 12 ////////////////////////////////////////////// --
 CREATE OR REPLACE VIEW  V_produtos_preferidos_de_cada_cliente AS
-SELECT c.nomeCliente AS cliente, p.nomeProduto AS produto, COUNT(i.quantidade) as
+SELECT c.nomeCliente AS cliente, p.nomeProduto AS produto, COUNT(i.quantidade) 
 FROM itens_pedido i
 JOIN pedidos pdd ON i.idPedido = pdd.idPedido
 JOIN clientes c ON c.idCliente = pdd.idCliente
