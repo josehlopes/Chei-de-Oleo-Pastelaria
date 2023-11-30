@@ -75,6 +75,7 @@ GROUP BY totalGeralVendas;
 $$
 DELIMITER ;
 
+SELECT * FROM V_valor_total_pastel;
 -- /////////////////////////////////////////////////////////////////////View 7 ////////////////////////////////////////////// --
 # 5. Liste todos os pedidos onde há pelo menos um pastel e uma bebida. 
 
@@ -115,9 +116,31 @@ ORDER BY p.idPedido;
 
 SELECT * FROM V_informacoes_dos_pedidos;
 -- /////////////////////////////////////////////////////////////////////View 10 ////////////////////////////////////////////// --
-CREATE OR REPLACE VIEW  V_ AS
+CREATE OR REPLACE VIEW  V_produtos_mais_pedidos AS
+SELECT p.nomeProduto AS produto, COUNT(i.quantidade) AS vendas
+FROM itens_pedido i
+JOIN produtos p ON p.idProduto = i.idProduto
+GROUP BY p.nomeProduto
+ORDER BY vendas DESC;
 
+SELECT * FROM V_produtos_mais_pedidos;
+SELECT * FROM itens_pedido;
 -- /////////////////////////////////////////////////////////////////////View 11 ////////////////////////////////////////////// --
+CREATE OR REPLACE VIEW  V_categoria_mais_pedida AS
+SELECT c.nome AS categoria, COUNT(i.quantidade) AS vendas
+FROM itens_pedido i
+JOIN produtos p ON p.idProduto = i.idProduto
+JOIN categorias c ON c.idCategoria = p.idCategoria
+GROUP BY categoria
+ORDER BY vendas DESC;
 
+SELECT * FROM V_categoria_mais_pedida;
+-- /////////////////////////////////////////////////////////////////////View 12 ////////////////////////////////////////////// --
+CREATE OR REPLACE VIEW  V_produtos_preferidos_de_cada_cliente AS
+SELECT c.nomeCliente AS cliente, p.nomeProduto AS produto, COUNT(i.quantidade) as
+FROM itens_pedido i
+JOIN pedidos pdd ON i.idPedido = pdd.idPedido
+JOIN clientes c ON c.idCliente = pdd.idCliente
+JOIN produtos p ON p.idProduto = i.idProduto
 
 
