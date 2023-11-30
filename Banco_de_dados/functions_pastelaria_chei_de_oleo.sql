@@ -1,18 +1,10 @@
 # 8. Crie pelo menos 3 funções
 
-CREATE FUNCTION IF NOT EXISTS F_clientes18()
-RETURNS TABLE
-AS
-SELECT nomeCliente, TIMESTAMPDIFF(YEAR, dataNascimento, CURDATE()) AS idade
-FROM clientes 
-WHERE TIMESTAMPDIFF(YEAR, dataNascimento, CURDATE()) > 18;
-
-SELECT * FROM F_clientes18;
 /**************************************************************** Função 1 ****************************************************************/
 /* Nesta função, criei um mecanismo para contar o número total de pedidos em um determinado mês e ano. */
 
 DELIMITER $$
-CREATE OR REPLACE FUNCTION F_total_pedidos_mes_ano(p_mes INT, p_ano INT)
+CREATE OR REPLACE FUNCTION F_total_pedidos_mes_ano(p_mes INT, p_ano INT) 
 RETURNS INT DETERMINISTIC
 BEGIN
   /* Declarei uma variável para armazenar o total de pedidos. */
@@ -83,14 +75,14 @@ SELECT F_status_pedido(4);
 /* Nesta função, criei um método para calcular o valor total de um pedido com base nos itens associados e seus preços. */
 
 DELIMITER $$
-CREATE OR REPLACE FUNCTION F_valor_total_pedido(p_idPedido INT)
+CREATE OR REPLACE FUNCTION F_valor_total_pedido(p_idPedido INT) 
 RETURNS DECIMAL(10,2) DETERMINISTIC
 BEGIN
   /* Declarei uma variável para armazenar o valor total do pedido. */
   DECLARE valor_total DECIMAL(10,2);
 
   /* Realizei uma consulta para calcular o valor total do pedido. */
-  SELECT SUM(precoBase * quantidade) INTO valor_total FROM itens_pedido 
+  SELECT SUM(precoBase * quantidade) INTO valor_total FROM itens_pedido
   JOIN produtos ON itens_pedido.idProduto = produtos.idProduto
   WHERE idPedido = p_idPedido;
 
