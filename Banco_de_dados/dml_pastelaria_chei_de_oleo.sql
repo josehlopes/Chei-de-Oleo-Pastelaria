@@ -50,23 +50,20 @@ SELECT * FROM contatos;
 
 INSERT INTO categorias (nome) 
 VALUES
-('Veganos'),
-('Bebidas'),
-('Ingredientes'),
-('Lanches'),
-('Comum');
-
-
+('Veganos'), #1
+('Bebidas'), #2
+('Especial'), #3
+('Lanches'), #4
+('Comum'), #5
+('Pastel Comum'), #6
+('Pastel Vegano'); #7
 -- Inserção de Produtos
-
--- Inserção de lanches
 
 INSERT INTO produtos (nomeProduto, precoBase, idCategoria) 
 VALUES
 ('Coxinha', 4.50, 4),
 ('Empada', 3.75, 4),
 ('Kibe', 5.25, 4),
-('Pastel', 4.99, 4),
 ('Croissant', 6.50, 4);
 
 -- Inserção de bebidas
@@ -76,67 +73,36 @@ VALUES
 ('Refrigerante', 4.00, 2),
 ('Suco Natural', 5.50, 2);
 
-SELECT 
-    *
-FROM
-    categorias;
-
+SELECT * FROM categorias;
 
 SELECT * FROM produtos;
 
 -- Inserção de ingredientes
 
-INSERT INTO ingredientes (nome, idCategoria)
- VALUES
-('Frango', 3),
-('Queijo', 3),
-('Tomate', 3),
-('Cebola', 3),
-('Bacon', 3),
-('Carne', 3);
+INSERT INTO ingredientes (nome , idCategoria) 
+VALUES
+('Frango', 5),
+('Queijo', 5),
+('Tomate', 1),
+('Cebola', 1),
+('Bacon', 5),
+('Carne', 5);
+INSERT INTO ingredientes (nome, idCategoria) 
+VALUES
+('Oregano', 1);
 
 SELECT * FROM ingredientes;
 
--- Inserção de Pasteis
+INSERT INTO tamanhos (descricao)
+	VALUES
+		('Grande'),
+        ('Médio'),
+        ('Pequeno'),
+        ('300ml'),
+        ('500ml'),
+        ('1L');
 
-INSERT INTO pasteis (descricao, tamanho, preco, idCategoria)
-VALUES 
-
-('Pastel de tomate', 'P', 3.00, 1),
-('Pastel de frango', 'G', 8.00, 5),
-('Pastel de cebola', 'P', 3.00, 1),
-('Pastel de queijo', 'M', 6.00, 5),
-('Pastel de cebola com tomate', 'M', 6.00, 1),
-('Pastel de bacon', 'P', 4.00, 5),
-('Pastel de bacon com queijo', 'G', 8.00, 5),
-('Pastel de frango com queijo', 'M', 6.00, 5),
-('Pastel de carne com queijo', 'P', 4.00, 5);
-
-SELECT * FROM pasteis;
-
--- Lista de ingredientes
-INSERT INTO ingredientes_do_pastel (idPastel, idIngrediente)
-VALUES
-(5, 4),
-(5, 3),
-(3, 4),
-(4, 2),
-(1, 3),
-(6, 5),
-(7, 5),
-(7, 2),
-(8, 5),
-(8, 1),
-(9, 2),
-(9, 6);
-
-SELECT 
-    *
-FROM
-    ingredientes_do_pastel;
-
-
--- Inserção de Status de Pedidos
+SELECT * FROM tamanhos;
 
 INSERT INTO status_pedidos (descricao) 
 VALUES 
@@ -144,6 +110,8 @@ VALUES
     ('C'),  -- Concluído
     ('EA'), -- Em Andamento
     ('SPE');-- Saiu para Entrega
+    
+SELECT * FROM status_pedidos;
 
 -- Inserção de Formas de Pagamento
 INSERT INTO formas_pagamentos (tipoPagamento) 
@@ -152,185 +120,107 @@ VALUES
     ('CC'), -- Cartão de Crédito
     ('CD'), -- Cartão de Débito
     ('PIX');-- PIX
-
--- Inserção de Pedidos
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs) 
-VALUES 
-    (1, 1, 1, 'Pedido da Alice, Aguardando Pagamento'),
-    (2, 3, 2, 'Pedido do Bernardo, Em Andamento'),
-    (3, 2, 4, 'Pedido da Clara, Concluído'),
-    (4, 1, 3, 'Pedido do Davi, Aguardando Pagamento'),
-    (5, 4, 4, 'Pedido da Eva, Saiu para Entrega');
-
--- Inserção de Itens nos Pedidos
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (1, 1, 2), -- 2 Coxinhas para o Pedido da Alice
-    (1, 4, 3), -- 3 Pasteis para o Pedido da Alice
-    (2, 3, 1), -- 1 Kibe para o Pedido do Bernardo
-    (3, 5, 2), -- 2 Croissants para o Pedido da Clara
-    (4, 2, 3), -- 3 Empadas para o Pedido do Davi
-    (5, 4, 4); -- 4 Pasteis para o Pedido da Eva
     
--- Pedido com pastel específico
-INSERT INTO itens_pedido (idPedido, idProduto, idPastel, quantidade) 
-VALUES 
-    (1, 4, 3, 3),
-    (5, 4, 1, 4); 
+SELECT * FROM formas_pagamentos;
 
--- Inserção de Pedidos em Meses Diferentes com Horas
--- Pedido para Janeiro
-
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (1, 1, 1, 'Pedido da Alice, Aguardando Pagamento', '2023-01-10 10:30:00'),
-    (2, 3, 2, 'Pedido do Bernardo, Em Andamento', '2023-01-15 12:45:00');
-
--- Pedido para Fevereiro
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (3, 2, 4, 'Pedido da Clara, Concluído', '2023-02-05 14:20:00'),
-    (4, 1, 3, 'Pedido do Davi, Aguardando Pagamento', '2023-02-20 16:55:00');
-
--- Pedido para Março
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (5, 4, 4, 'Pedido da Eva, Saiu para Entrega', '2023-03-08 18:30:00');
-    
--- Pedido para Abril
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (6, 3, 1, 'Pedido do Fábio, Em Andamento', '2023-04-12 10:30:00'),
-    (7, 2, 2, 'Pedido da Giovana, Concluído', '2023-04-18 12:45:00');
-
--- Pedido para Maio
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (8, 1, 4, 'Pedido do Henrique, Aguardando Pagamento', '2023-05-02 14:20:00'),
-    (9, 4, 3, 'Pedido da Isabela, Saiu para Entrega', '2023-05-15 16:55:00');
-
--- Pedido para Junho
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (10, 3, 1, 'Pedido do João, Em Andamento', '2023-06-08 18:30:00');
-
--- Pedido para Julho
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (1, 2, 2, 'Segundo Pedido da Alice, Concluído', '2023-07-20 10:30:00');
-
--- Pedido para Agosto
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (2, 4, 4, 'Segundo Pedido do Bernardo, Aguardando Pagamento', '2023-08-05 12:45:00');
-
--- Pedido para Setembro
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (3, 1, 3, 'Segundo Pedido da Clara, Saiu para Entrega', '2023-09-18 14:20:00');
-
--- Pedido para Outubro
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (4, 3, 1, 'Segundo Pedido do Davi, Em Andamento', '2023-10-02 16:55:00');
-
--- Pedido para Novembro
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (5, 2, 2, 'Segundo Pedido da Eva, Concluído', '2023-11-15 18:30:00');
-
--- Pedido para Dezembro
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (6, 4, 4, 'Segundo Pedido do Fábio, Aguardando Pagamento', '2023-12-08 10:30:00');
-    
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (1, 3, 3, 'Terceiro Pedido da Alice, Em Andamento', '2023-01-25 15:30:00'),
-    (1, 2, 4, 'Quarto Pedido da Alice, Saiu para Entrega', '2023-01-28 11:45:00'),
-    (1, 1, 2, 'Quinto Pedido da Alice, Concluído', '2023-01-30 17:20:00');
-    
--- Inserção de Pedidos de Pasteis Veganos
-
--- Pedido para Janeiro
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (1, 1, 1, 'Pedido da Alice, Aguardando Pagamento', '2023-01-10 10:30:00'),
-    (2, 3, 2, 'Pedido do Bernardo, Em Andamento', '2023-01-15 12:45:00'),
-    (3, 2, 4, 'Pedido da Clara, Concluído', '2023-01-20 14:20:00');
-
--- Itens do Pedido de Pasteis Veganos para Janeiro
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (1, 4, 3), -- 3 Pasteis Veganos para o Pedido da Alice
-    (2, 4, 2), -- 2 Pasteis Veganos para o Pedido do Bernardo
-    (3, 4, 4); -- 4 Pasteis Veganos para o Pedido da Clara
-
--- Pedido para Fevereiro
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (4, 1, 3, 'Pedido do Davi, Aguardando Pagamento', '2023-02-05 16:55:00'),
-    (5, 4, 4, 'Pedido da Eva, Saiu para Entrega', '2023-02-10 18:30:00');
-
--- Itens do Pedido de Pasteis Veganos para Fevereiro
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (4, 4, 3), -- 3 Pasteis Veganos para o Pedido do Davi
-    (5, 4, 2); -- 2 Pasteis Veganos para o Pedido da Eva;
-    
--- Inserção de Pedidos com Bebidas
--- Pedido 1
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (1, 1, 1, 'Pedido da Alice com Bebida, Aguardando Pagamento', '2023-02-01 14:00:00');
-
--- Inserção de Itens nos Pedidos
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (6, 6, 2);  -- Refrigerantes para o Pedido da Alice
-
--- Pedido 2
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (2, 3, 2, 'Pedido do Bernardo com Bebida, Em Andamento', '2023-02-02 15:30:00');
-
--- Inserção de Itens nos Pedidos
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (7, 7, 1), -- 1 Suco Natural para o Pedido do Bernardo
-    (7, 6, 3); -- 3 Refrigerantes para o Pedido do Bernardo
-
--- Pedido 3
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (3, 2, 4, 'Pedido da Clara com Bebida, Concluído', '2023-02-03 18:45:00');
-
--- Inserção de Itens nos Pedidos
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (8, 7, 2); -- 2 Suco Natural para o Pedido da Clara
-
--- Pedido 4
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (4, 1, 3, 'Pedido do Davi com Bebida, Aguardando Pagamento', '2023-02-04 12:00:00');
-
--- Inserção de Itens nos Pedidos
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (9, 6, 4); -- 4 Refrigerantes para o Pedido do Davi
-
--- Pedido 5
-INSERT INTO pedidos (idCliente, idStatus, idPagamento, obs, dataPedido) 
-VALUES 
-    (5, 4, 4, 'Pedido da Eva com Bebida, Saiu para Entrega', '2023-02-05 16:15:00');
-
--- Inserção de Itens nos Pedidos
-INSERT INTO itens_pedido (idPedido, idProduto, quantidade) 
-VALUES 
-    (10, 7, 1); -- 1 Suco Natural para o Pedido da Eva
-
+INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
+VALUES
+    (1, 20.50, '2023-01-10 15:30:00', 1, 2, 'Pedido Janeiro'),
+    (2, 15.75, '2023-02-05 18:45:00', 2, 3, 'Pedido Fevereiro'),
+    (3, 30.00, '2023-03-12 12:15:00', 3, 1, 'Pedido Março'),
+    (4, 25.99, '2023-04-20 20:00:00', 4, 4, 'Pedido Abril'),
+    (5, 18.50, '2023-05-08 14:30:00', 1, 2, 'Pedido Maio'),
+    (6, 22.75, '2023-06-17 17:45:00', 2, 3, 'Pedido Junho'),
+    (7, 35.00, '2023-07-25 11:15:00', 3, 1, 'Pedido Julho'),
+    (8, 29.99, '2023-08-03 19:30:00', 4, 4, 'Pedido Agosto'),
+    (9, 21.50, '2023-09-19 13:00:00', 1, 2, 'Pedido Setembro'),
+    (10, 27.75, '2023-10-28 16:45:00', 2, 3, 'Pedido Outubro'),
+    (1, 19.99, '2023-11-05 14:30:00', 1, 2, 'Pedido Novembro'),
+    (2, 14.50, '2023-12-12 17:15:00', 2, 3, 'Pedido Dezembro'),
+    (3, 28.75, '2023-05-22 11:45:00', 3, 1, 'Pedido Maio (Repetido)'),
+    (4, 24.00, '2023-08-28 19:00:00', 4, 4, 'Pedido Agosto (Repetido)'),
+    (5, 17.50, '2023-09-15 13:30:00', 1, 2, 'Pedido Setembro (Repetido)');
     
 SELECT * FROM pedidos;
 
+-- Inserção de 3 pastéis diretamente em produtos
+
+INSERT INTO produtos (nomeProduto, precoBase, idCategoria)
+VALUES
+
+    ('Pastel de Queijo', 4.00, 6),
+    ('Pastel de Carne', 4.00, 6),
+    ('Pastel de Tomate', 4.00, 7);
+    
+SELECT * FROM produtos;
+
+INSERT INTO ingredientes_do_pastel (idProduto, idIngrediente)
+VALUES
+    ((SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Queijo'), 2); -- Queijo
+
+-- Atualização do Pastel de Carne
+INSERT INTO ingredientes_do_pastel (idProduto, idIngrediente)
+VALUES
+    ((SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Carne'), 5); -- Carne
+
+-- Atualização do Pastel Vegano
+INSERT INTO ingredientes_do_pastel (idProduto, idIngrediente)
+VALUES
+    ((SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 3); -- Tomate
+    
+SELECT * FROM ingredientes_do_pastel;
+
+INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
+VALUES (1, 11.98, '2023-11-25 12:30:00', 1, 2, 'Pedido de Pastel de Queijo para Alice');
+
+
+INSERT INTO pedidos (idCliente, valor, dataPedido, idStatus, idPagamento, obs)
+VALUES (1, 7.50, '2023-12-10 15:45:00', 1, 2, 'Pedido de Pastel Vegano para Alice');
+
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel Vegano para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 1, 6);
+
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES
+    (17, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 3, 1),
+    (17, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Tomate'), 2, 2);
+
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES ((SELECT idPedido FROM pedidos WHERE obs = 'Pedido de Pastel de Queijo para Alice'), (SELECT idProduto FROM produtos WHERE nomeProduto = 'Pastel de Queijo'), 2, 3);
+
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES
+    (16, (SELECT idProduto FROM produtos WHERE nomeProduto = 'Refrigerante'), 1, 4);
+
 SELECT * FROM itens_pedido;
+
+INSERT INTO pedidos (idCliente, valor, idStatus, idPagamento, obs)
+VALUES
+    (1, 15.99, 1, 1, 'Pedido do cliente Alice Ventania'),
+    (2, 25.99, 1, 2, 'Pedido do cliente Bernardo Trovão'),
+    (3, 12.99, 1, 1, 'Pedido do cliente Clara Estrela'),
+    (4, 18.99, 1, 3, 'Pedido do cliente Davi Sereno'),
+    (5, 8.99, 1, 4, 'Pedido do cliente Eva Brisa'),
+    (6, 22.99, 1, 2, 'Pedido do cliente Fábio Sombra'),
+    (7, 19.99, 1, 3, 'Pedido do cliente Giovana Lua'),
+    (8, 14.99, 1, 1, 'Pedido do cliente Henrique Aurora'),
+    (9, 16.99, 1, 2, 'Pedido do cliente Isabela Chuva'),
+    (10, 10.99, 1, 4, 'Pedido do cliente João Trovador');
+
+SELECT * FROM pedidos;
+
+INSERT INTO itens_pedido (idPedido, idProduto, quantidade, idTamanho)
+VALUES
+    (1, 1, 2, 3),   -- 2 Coxinhas Médias
+    (2, 4, 1, 1),   -- 1 Croissant Grande
+    (3, 5, 5, 5),   -- 3 Empadas Médias
+    (4, 2, 1, 3),   -- 1 Kibe Pequeno
+    (5, 3, 2, 1),   -- 2 Croissants Grandes
+    (6, 5, 1, 5),   -- 1 Refrigerante de 500ml
+    (7, 1, 2, 4),   -- 2 Coxinhas Grandes
+    (8, 4, 3, 6),   -- 3 Empadas Grandes
+    (9, 2, 1, 2),   -- 1 Kibe Médio
+    (10, 3, 2, 1);  -- 2 Croissants Grandes
+
+SELECT * FROM itens_pedido;
+
