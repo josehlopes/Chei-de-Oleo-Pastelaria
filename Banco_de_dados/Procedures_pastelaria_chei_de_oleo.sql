@@ -169,3 +169,5 @@ CREATE OR REPLACE PROCEDURE P_atualiza_preco_produto(
 DELIMITER ;
 CALL P_atualiza_preco_produto('Coxinha', 10.00);
 SELECT * FROM produtos;
+
+SELECT * FROM clientes;

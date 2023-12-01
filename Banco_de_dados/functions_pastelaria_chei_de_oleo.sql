@@ -1,5 +1,4 @@
 # 8. Crie pelo menos 3 funções
-
 /**************************************************************** Função 1 ****************************************************************/
 /* Nesta função, criei um mecanismo para contar o número total de pedidos em um determinado mês e ano. */
 
@@ -83,8 +82,11 @@ BEGIN
 
   /* Realizei uma consulta para calcular o valor total do pedido. */
   SELECT SUM(precoBase * quantidade) INTO valor_total FROM itens_pedido
-  JOIN produtos ON itens_pedido.idProduto = produtos.idProduto
+  JOIN produtos ON produtos.idProduto = itens_pedido.idProduto
   WHERE idPedido = p_idPedido;
+  IF valor_total IS NULL THEN
+        SET valor_total = 0.00;
+    END IF;
 
   /* Retorno o valor total do pedido. */
   RETURN valor_total;
@@ -92,7 +94,14 @@ END$$
 DELIMITER ;
 
 /*teste da função.*/
-SELECT F_valor_total_pedido(2);
+SELECT F_valor_total_pedido(1);
+
+SELECT produtos.nomeProduto, 
+       produtos.precoBase,
+       itens_pedido.quantidade,
+       (produtos.precoBase * itens_pedido.quantidade) AS total
+FROM produtos
+JOIN itens_pedido ON produtos.idProduto = itens_pedido.idProduto;
 
 /**************************************************************** Função 5 ****************************************************************/
 /* Nesta função, desenvolvi um método para contar o número total de pedidos com um determinado status. */

@@ -124,4 +124,3 @@ CREATE TABLE IF NOT EXISTS log_preco (
         REFERENCES produtos (idProduto)
 );
 
-
